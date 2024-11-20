@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DTO
 {
-    public class RoomDTO
+    public class RoomDTO : IDTO
     {
         public int id { get; set; }
         public string type { get; set; }
