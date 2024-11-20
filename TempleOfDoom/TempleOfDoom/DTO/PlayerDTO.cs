@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TempleOfDoom.DTO
 {
-    public class playerDTO
+    public class PlayerDTO
     {
         public int startRoomId { get; set; }
         public int startX { get; set; }

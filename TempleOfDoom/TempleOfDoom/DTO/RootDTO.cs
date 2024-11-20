@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace TempleOfDoom.DTO
 {
-    public class Root
+    public class RootDTO
     {
         public RoomDTO[] rooms { get; set; }
-        public Connection[] connections { get; set; }
+        public ConnectionDTO[] connections { get; set; }
         public PlayerDTO player { get; set; }
     }
 }

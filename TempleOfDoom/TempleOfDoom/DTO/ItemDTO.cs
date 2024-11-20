@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TempleOfDoom.DTO
 {
-    public class Item
+    public class ItemDTO
     {
         public string type { get; set; }
         public int damage { get; set; }
