@@ -4,7 +4,18 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+
+            string filePath = "./Levels/TempleOfDoom1.json";
+
+
+            string fileName = Path.GetFileName(filePath);
+
+
+            Game game = new Game(fileName);
+            game.Render(fileName);
         }
+
+
+
     }
 }
