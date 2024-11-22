@@ -33,7 +33,7 @@ namespace TempleOfDoom.PresentationLayer
         internal void Render(String fileName)
         {
             WelcomeMessage(fileName);
-            GetPlayerLives();
+            GetPlayerLives(player);
             CopyrightMessage();
         }
 

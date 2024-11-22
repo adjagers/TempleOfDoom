@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DTO
+namespace TempleOfDoom.DataLayer.DTO
 {
     public class RootDTO : IDTO
     {
