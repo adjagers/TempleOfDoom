@@ -10,12 +10,12 @@ namespace TempleOfDoom.DataLayer
 {
     public class LevelReader : ILevelDataReader
     {
-        private RootDTO? RootDTO {  get; set; }
+        public GameLevelDTO GameLevelDTO {  get; set; }
         public LevelReader(string path)
         {
-            RootDTO = readFile(path);
+            GameLevelDTO = ReadFile(path);
         }
-        public RootDTO readFile(string path)
+        public GameLevelDTO ReadFile(string path)
         {
             string? extension = Path.GetExtension(path)?.ToLower()?.TrimStart('.');
             if (string.IsNullOrEmpty(extension)) throw new Exception("invalid path");
@@ -26,7 +26,7 @@ namespace TempleOfDoom.DataLayer
             if (readerType == null) throw new Exception(extension + " is not supported");
             // create instance if exists
             ILevelDataReader? levelDataReader = Activator.CreateInstance(readerType) as ILevelDataReader;
-            return levelDataReader.readFile(path);
+            return levelDataReader.ReadFile(path);
         }
     }
 }

@@ -3,15 +3,13 @@ using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom;
 
-public class GameObjectMapper : IMapper
+public class GameLevelMapper : IMapper
 {
     public IGameObject Map(IDTO dto)
     {
-        if (dto is RootDTO rootDto)
-        {
+        var player = dto as Player;
             var gameLevel = new GameLevel();
             return gameLevel;
-        }
-        else return null;
+       
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,10 @@ namespace TempleOfDoom.DataLayer.DTO
 {
     public class PlayerDTO : IDTO
     {
-        public int startRoomId { get; set; }
-        public int startX { get; set; }
-        public int startY { get; set; }
-        public int lives { get; set; }
+        public int StartRoomId { get; set; }
+        public int StartX { get; set; }
+        public int StartY { get; set; }
+        public int Lives { get; set; }
     }
 
 }

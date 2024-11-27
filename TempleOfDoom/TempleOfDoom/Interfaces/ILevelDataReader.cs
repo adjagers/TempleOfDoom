@@ -9,6 +9,6 @@ namespace TempleOfDoom.Interfaces
 {
     public interface ILevelDataReader
     {
-        public RootDTO readFile(string path);
+        public GameLevelDTO ReadFile(string path);
     }
 }

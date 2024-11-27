@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using TempleOfDoom.DataLayer.Models;
 
 namespace TempleOfDoom
 {
@@ -12,7 +13,7 @@ namespace TempleOfDoom
     {
         public Game(string fileName)
         {
-            fileName = fileName.ToLower();
+            
         }
 
         Player player;

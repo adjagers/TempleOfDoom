@@ -6,8 +6,8 @@ namespace TempleOfDoom
 {
     public class GameLevel : IGameObject
     {
-        public RoomDTO[] Rooms { get; set; }
-        public ConnectionDTO[] Connections { get; set; }
-        public PlayerDTO Player { get; set; }
+        public Room[] Rooms { get; set; }
+        public Connection[] Connections { get; set; }
+        public Player Player { get; set; }
     }
 }

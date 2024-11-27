@@ -11,21 +11,23 @@ namespace TempleOfDoom.DataLayer.ReaderStrategies
 {
     public class JsonLevelDataReader : ILevelDataReader
     {
-        public RootDTO readFile(string path)
+        public GameLevelDTO ReadFile(string path)
         {
-           {
-               try
-               {
-                    string json = File.ReadAllText(path);
-                    RootDTO root = JsonSerializer.Deserialize<RootDTO>(json);
-                    return root;
-               }
-               catch (Exception e)
-               {
-                    Console.WriteLine(e.Message);
-                    return null;
-               }
-           }
+            try
+            {
+                string json = File.ReadAllText(path);
+                GameLevelDTO root = JsonSerializer.Deserialize<GameLevelDTO>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+                return root;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error during JSON deserialization: {e.Message}");
+                return null;
+            }
         }
+
     }
 }

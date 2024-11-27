@@ -10,7 +10,7 @@ namespace TempleOfDoom.DataLayer.ReaderStrategies
 {
     public class XmlLevelDataReader : ILevelDataReader
     {
-        public RootDTO readFile(string path)
+        public GameLevelDTO ReadFile(string path)
         {
             throw new NotImplementedException();
         }

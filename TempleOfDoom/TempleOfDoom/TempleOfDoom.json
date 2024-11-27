@@ -169,67 +169,81 @@
 			]
 		}
 	],
-	"connections": [
-		{
-			"NORTH": 1,
-			"SOUTH": 2,
-			"doors": []
-		},
-		{
-			"NORTH": 2,
-			"SOUTH": 3,
-			"doors": []
-		},
-		{
-			"WEST": 1,
-			"EAST": 4,
-			"doors": []
-		},
-		{
-			"NORTH": 4,
-			"SOUTH": 5,
-			"doors": [{
-				"type": "colored",
-				"color": "green"
-			},{
-				"type": "open on stones in room",
-				"no_of_stones": 0
-			}]
-		},
-		{
-			"WEST": 4,
-			"EAST": 7,
-			"doors": [{
-				"type": "colored",
-				"color": "red"
-			},{
-				"type": "open on odd"
-			}]
-		},
-		{
-			"NORTH": 6,
-			"SOUTH": 7,
-			"doors": [{
-				"type": "toggle"
-			}]
-		},
-		{
-			"NORTH": 7,
-			"SOUTH": 8,
-			"doors": [{
-				"type": "toggle"
-			},{
-				"type": "open on odd"
-			}]
-		},
-		{
-			"NORTH": 8,
-			"SOUTH": 9,
-			"doors": [{
-				"type": "closing gate"
-			}]
-		}
-	],
+  "connections": [
+    {
+      "NORTH": 1,
+      "SOUTH": 2,
+      "doors": []
+    },
+    {
+      "NORTH": 2,
+      "SOUTH": 3,
+      "doors": []
+    },
+    {
+      "WEST": 1,
+      "EAST": 4,
+      "doors": []
+    },
+    { "$ref": "#" },
+    {
+      "NORTH": 4,
+      "SOUTH": 5,
+      "doors": [
+        {
+          "type": "colored",
+          "color": "green"
+        },
+        {
+          "type": "open on stones in room",
+          "no_of_stones": 0
+        }
+      ]
+    },
+    {
+      "WEST": 4,
+      "EAST": 7,
+      "doors": [
+        {
+          "type": "colored",
+          "color": "red"
+        },
+        {
+          "type": "open on odd"
+        }
+      ]
+    },
+    {
+      "NORTH": 6,
+      "SOUTH": 7,
+      "doors": [
+        {
+          "type": "toggle"
+        }
+      ]
+    },
+    {
+      "NORTH": 7,
+      "SOUTH": 8,
+      "doors": [
+        {
+          "type": "toggle"
+        },
+        {
+          "type": "open on odd"
+        }
+      ]
+    },
+    {
+      "NORTH": 8,
+      "SOUTH": 9,
+      "doors": [
+        {
+          "type": "closing gate"
+        }
+      ]
+    }
+  ],
 	"player": {
 		"startRoomId": 1,
 		"startX": 2,
