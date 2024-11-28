@@ -10,5 +10,6 @@ namespace TempleOfDoom.DataLayer.Models
         public int CurrentRoomId { get; set; }
         public Position Position { get; set; }
         public int Lives { get; set; }
+        public object Inventory { get; internal set; }
     }
 }

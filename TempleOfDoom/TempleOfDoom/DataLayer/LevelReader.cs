@@ -23,6 +23,7 @@ namespace TempleOfDoom.DataLayer
             string classname = "TempleOfDoom.DataLayer.ReaderStrategies." + char.ToUpper(extension[0]) + extension.Substring(1) + "LevelDataReader";
             // check if type exists
             Type? readerType = Type.GetType(classname);
+
             if (readerType == null) throw new Exception(extension + " is not supported");
             // create instance if exists
             ILevelDataReader? levelDataReader = Activator.CreateInstance(readerType) as ILevelDataReader;
@@ -30,3 +31,4 @@ namespace TempleOfDoom.DataLayer
         }
     }
 }
+

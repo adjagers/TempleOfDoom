@@ -15,7 +15,6 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
     {
         public IGameObject Map(IDTO dto)
         {
-            if (dto == null) return null;
             PlayerDTO playerDTO = dto as PlayerDTO;
             return new Player()
             {

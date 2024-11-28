@@ -9,8 +9,13 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
 {
     public class RoomMapper : IMapper
     {
-        public RoomMapper() {
+        public RoomMapper(ItemMapper itemMapper) {
         
+        }
+
+        public IGameObject Map(IDTO dto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

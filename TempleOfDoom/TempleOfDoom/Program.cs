@@ -13,20 +13,17 @@ namespace TempleOfDoom
     {
         static void Main(string[] args)
         {
-            // Create a JsonLevelDataReader to read the level data from a file
-
-     
-
-            // Read the level data from a JSON file
             string path = "C:\\Users\\Anton Jagers\\OneDrive\\Documenten\\Documenten\\GitHub\\TempleOfDoom\\TempleOfDoom\\TempleOfDoom\\TempleOfDoom.json";
             LevelReader reader = new LevelReader(path);
-            PlayerDTO levelData = reader.GameLevelDTO.Player;
+            GameLevelDTO levelData = reader.GameLevelDTO;
+
+            Console.WriteLine($"{levelData.Connections.Count}");
+
             if (levelData != null)
             {
-                // Map the RootDTO to a GameLevel object
-                IMapper mapper = new PlayerMapper();
-                Player player = (Player)mapper.Map(levelData);
-                Console.WriteLine($"Player CurrentRoomID {player.CurrentRoomId}");
+                IMapper mapper = new GameLevelMapper();
+                GameLevel gameLevel = (GameLevel)mapper.Map(levelData);
+                Console.WriteLine($"Player CurrentRoomID {gameLevel.Player.CurrentRoomId}");
             }
             else
             {

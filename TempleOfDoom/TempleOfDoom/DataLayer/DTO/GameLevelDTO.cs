@@ -11,8 +11,8 @@ namespace TempleOfDoom.DataLayer.DTO
 {
     public class GameLevelDTO : IDTO
     {
-        public RoomDTO[] Rooms { get; set; }
-        public ConnectionDTO[] Connections { get; set; }
+        public List<RoomDTO> Rooms { get; set; }
+        public List<ConnectionDTO> Connections { get; set; }
         public PlayerDTO Player { get; set; }
     }
 }
