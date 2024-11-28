@@ -12,9 +12,9 @@ public class ConnectionMapper : IMapper
     public IGameObject Map(IDTO dto)
     {
         if (dto == null) return null;
-        var connectDTO = dto as ConnectionDTO;
+        var connectionDTO = dto as ConnectionDTO;
         IDoor door = new BasicDoor(true);
-        foreach (var dtoDoor in connectDTO.Doors)
+        foreach (var dtoDoor in connectionDTO.Doors)
         {
             switch (dtoDoor.Type)
             {
@@ -40,33 +40,33 @@ public class ConnectionMapper : IMapper
                     break;
             }
         }
-        var connectionGOM = new Connection();
-        if (connectDTO.NORTH == 0)
+        var connection = new Connection();
+        if (connectionDTO.NORTH == 0)
         {
-            connectionGOM.EAST = connectDTO.EAST;
-            connectionGOM.WEST = connectDTO.WEST;
+            connection.EAST = connectionDTO.EAST;
+            connection.WEST = connectionDTO.WEST;
         }
         else
         {
-            connectionGOM.NORTH = connectDTO.NORTH;
-            connectionGOM.SOUTH = connectDTO.SOUTH;
+            connection.NORTH = connectionDTO.NORTH;
+            connection.SOUTH = connectionDTO.SOUTH;
         }
-        connectionGOM.Doors = door;
+        connection.Doors = door;
 
-        DebugPrint(connectionGOM);
-        return connectionGOM;
+        DebugPrint(connection);
+        return connection;
     }
 
-    public void DebugPrint(Connection connectGOM)
+    public void DebugPrint(Connection connection)
     {
-        if (connectGOM.NORTH == 0)
+        if (connection.NORTH == 0)
         {
-            Console.WriteLine(connectGOM.EAST.ToString() + " and " + connectGOM.WEST.ToString());
+            Console.WriteLine(connection.EAST.ToString() + " and " + connection.WEST.ToString());
         }
         else
         {
-            Console.WriteLine(connectGOM.NORTH.ToString() + " and " + connectGOM.SOUTH);
+            Console.WriteLine(connection.NORTH.ToString() + " and " + connection.SOUTH);
         }
-        Console.WriteLine("and door is " + connectGOM.Doors.GetType());
+        Console.WriteLine("and door is " + connection.Doors.GetType());
     }
 }
