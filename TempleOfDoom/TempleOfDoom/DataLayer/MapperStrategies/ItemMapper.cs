@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TempleOfDoom.Interfaces
+namespace TempleOfDoom.DataLayer.MapperStrategies
 {
-    public interface IMapper
+    public class ItemMapper
     {
-        public IGameObject Map(IDTO dto);
     }
 }

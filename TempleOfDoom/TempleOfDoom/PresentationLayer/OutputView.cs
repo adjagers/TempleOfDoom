@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TempleOfDoom.Interfaces
+namespace TempleOfDoom.PresentationLayer
 {
-    public interface IMapper
+    public class OutputView
     {
-        public IGameObject Map(IDTO dto);
     }
 }

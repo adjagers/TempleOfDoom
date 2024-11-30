@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DTO
+namespace TempleOfDoom.DataLayer.DTO
 {
-   public class DoorDTO : IDTO
+    public class ItemDTO : IDTO
     {
         public string type { get; set; }
+        public int damage { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
         public string color { get; set; }
-        public int no_of_stones { get; set; }
     }
 }
