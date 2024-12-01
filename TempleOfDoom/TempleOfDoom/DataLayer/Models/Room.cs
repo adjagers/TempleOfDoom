@@ -14,6 +14,7 @@ namespace TempleOfDoom.DataLayer.Models
         public string Type { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public List<Item> Items { get; set; } = new();
     }
 }
 

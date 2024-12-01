@@ -28,6 +28,10 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
             _connectionMapper = new ConnectionMapper(gameLevel.Player);
             gameLevel.Connections = MapConnections(gameLevelDTO);
 
+            gameLevel.Rooms = MapRooms(gameLevelDTO);
+            Console.WriteLine("Is er iets in?");
+            Console.WriteLine(gameLevel.Rooms.Count);
+
             // Room Mapping
 
             // ItemMapper
@@ -48,13 +52,16 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
 
         private List<Room> MapRooms(GameLevelDTO gameLevelDTO)
         {
+            Console.WriteLine($"GameLevelMapper: Mapping {gameLevelDTO.Rooms.Count} rooms.");
             List<Room> rooms = new List<Room>();
             foreach (RoomDTO room in gameLevelDTO.Rooms)
             {
+                Console.WriteLine($"GameLevelMapper: Mapping RoomDTO with Id={room.Id}");
                 rooms.Add((Room)_roomMapper.Map(room));
             }
             return rooms;
         }
+
 
         private Player MapPlayer(GameLevelDTO gameLevelDTO)
         {

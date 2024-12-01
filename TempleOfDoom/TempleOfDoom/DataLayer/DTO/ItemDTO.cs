@@ -9,10 +9,10 @@ namespace TempleOfDoom.DataLayer.DTO
 {
     public class ItemDTO : IDTO
     {
-        public string type { get; set; }
-        public int damage { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
-        public string color { get; set; }
+        public string Type { get; set; }
+        public int Damage { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public string Color { get; set; }
     }
 }
