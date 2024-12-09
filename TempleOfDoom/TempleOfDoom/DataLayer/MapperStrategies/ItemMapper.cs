@@ -1,11 +1,19 @@
 ﻿using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.DataLayer.FactoryMethodes;
+using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer.MapperStrategies
 {
     public class ItemMapper
     {
-        internal Item Map(ItemDTO itemDTO)
+        private readonly ItemFactory _itemFactory;
+
+        public ItemMapper()
+        {
+            _itemFactory = new ItemFactory(); // Initialize the factory
+        }
+        public IItem Map(ItemDTO itemDTO)
         {
             if (itemDTO == null)
             {
@@ -13,19 +21,16 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
                 return null;
             }
 
-            Console.WriteLine($"ItemMapper: Mapping ItemDTO with type={itemDTO.Type}, damage={itemDTO.Damage}");
+            Console.WriteLine($"ItemMapper: Mapping ItemDTO with Type={itemDTO.Type}, Damage={itemDTO.Damage}");
 
-            // Maak een nieuw Item-object en zet de velden over van itemDTO
-            Item item = new Item
+            // Use the factory to create the Item object
+            IItem item = _itemFactory.CreateItem(itemDTO);
+
+            if (item != null)
             {
-                Type = itemDTO.Type,
-                Damage = itemDTO.Damage,
-                X = itemDTO.X,
-                Y = itemDTO.Y,
-                Color = itemDTO.Color
-            };
+                Console.WriteLine($"ItemMapper: Mapped Positie:  X={item.Position?.getX()}, Y={item.Position?.getY()}");
+            }
 
-            Console.WriteLine($"ItemMapper: Mapped Item with Type={item.Type}, Damage={item.Damage}, X={item.X}, Y={item.Y}, Color={item.Color}");
             return item;
         }
     }

@@ -1,14 +1,62 @@
-﻿internal class ClosingGateDecorator : IDoor
+﻿using System;
+
+namespace TempleOfDoom.DataLayer.Decorators
 {
-    private IDoor door;
-
-    public ClosingGateDecorator(IDoor door)
+    public class ClosingGateDecorator : DoorDecorator
     {
-        this.door = door;
-    }
+        private bool _hasClosed;
 
-    public void SetInitialState(bool v)
-    {
-        Console.WriteLine("ja");
+        // Constructor
+        public ClosingGateDecorator(IDoor door) : base(door)
+        {
+            _hasClosed = false;
+        }
+
+        public override void Close()
+        {
+            if (!_hasClosed)
+            {
+                base.Close();
+                _hasClosed = true; // Mark as permanently closed
+                Console.WriteLine("The gate has permanently closed.");
+            }
+            else
+            {
+                Console.WriteLine("The gate is already permanently closed.");
+            }
+        }
+
+        public override void Open()
+        {
+            if (_hasClosed)
+            {
+                Console.WriteLine("The gate is permanently closed and cannot be reopened.");
+            }
+            else
+            {
+                base.Open();
+            }
+        }
+
+        public override bool IsOpen
+        {
+            get
+            {
+                // If permanently closed, always return false
+                return !_hasClosed && base.IsOpen;
+            }
+            set
+            {
+                // Prevent modifications if permanently closed
+                if (_hasClosed)
+                {
+                    Console.WriteLine("The gate is permanently closed. IsOpen cannot be modified.");
+                }
+                else
+                {
+                    base.IsOpen = value;
+                }
+            }
+        }
     }
 }

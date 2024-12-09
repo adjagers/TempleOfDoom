@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.DataLayer.DTO;
+﻿using TempleOfDoom.DataLayer.Decorators;
+using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
 
 public class DoorFactory
@@ -7,35 +8,39 @@ public class DoorFactory
 
     public DoorFactory(Player player)
     {
-        _player = player;
+        _player = player ?? throw new ArgumentNullException(nameof(player));
     }
 
     public IDoor CreateDoor(DoorDTO dtoDoor)
     {
-        IDoor door = new BasicDoor(true);
-        switch (dtoDoor.Type)
+        if (dtoDoor == null)
+            throw new ArgumentNullException(nameof(dtoDoor));
+
+        // Standaard basisdeur (initieel gesloten)
+        IDoor door = new BasicDoor(initialState: false);
+
+        switch (dtoDoor.Type.ToLower())
         {
             case "colored":
-                door.SetInitialState(false);
-                door = new ColoredDoorDecorator(door, dtoDoor.Color, _player.Inventory);
+                door = new ColoredDoorDecorator(door, dtoDoor.Color);
                 break;
             case "toggle":
-                door.SetInitialState(false);
                 door = new ToggleDoorDecorator(door);
                 break;
             case "closing gate":
-                door.SetInitialState(true);
                 door = new ClosingGateDecorator(door);
                 break;
             case "open on odd":
-                door = new OpenOnOddDoorDecorator(door, _player);
+                door = new OpenOnOddDecorator(door);
                 break;
             case "open on stones in room":
-                door = new NumberOfStonesInRoomDoorDecorator(door, dtoDoor.No_of_stones);
+                door = new NumberOfStonesDoorDecorator(door, dtoDoor.No_of_stones);
                 break;
             default:
+                Console.WriteLine("Warning: Unrecognized door type.");
                 break;
         }
+
         return door;
     }
 }

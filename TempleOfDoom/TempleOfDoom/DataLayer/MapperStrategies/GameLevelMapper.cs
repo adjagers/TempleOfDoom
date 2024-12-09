@@ -28,14 +28,8 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
             _connectionMapper = new ConnectionMapper(gameLevel.Player);
             gameLevel.Connections = MapConnections(gameLevelDTO);
 
+            // Room Mapping & ItemMapper
             gameLevel.Rooms = MapRooms(gameLevelDTO);
-            Console.WriteLine("Is er iets in?");
-            Console.WriteLine(gameLevel.Rooms.Count);
-
-            // Room Mapping
-
-            // ItemMapper
-
 
             return gameLevel;
         }
@@ -62,11 +56,9 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
             return rooms;
         }
 
-
         private Player MapPlayer(GameLevelDTO gameLevelDTO)
         {
             Player player = (Player)_playerMapper.Map(gameLevelDTO.Player);
-            Console.WriteLine("komt ie in Map Player?");
             return player;
         }
 

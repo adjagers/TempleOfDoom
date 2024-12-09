@@ -5,11 +5,12 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.HelperClasses;
 
 namespace TempleOfDoom
 {
 
-    internal class Game
+    public class Game
     {
         public Game(string fileName)
         {

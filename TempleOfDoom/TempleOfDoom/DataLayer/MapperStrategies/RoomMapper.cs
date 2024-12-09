@@ -40,25 +40,23 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
             // Map items if present
             if (roomDTO.Items != null && roomDTO.Items.Count > 0)
             {
-                Console.WriteLine($"RoomMapper: RoomDTO with Id={roomDTO.Id} contains {roomDTO.Items.Count} items.");
                 room.Items = MapItems(roomDTO.Items);
             }
             else
             {
                 Console.WriteLine($"RoomMapper: RoomDTO with Id={roomDTO.Id} has no items.");
-                room.Items = new List<Item>();
+                room.Items = new List<IItem>();
             }
 
             return room;
         }
 
-        private List<Item> MapItems(List<ItemDTO> itemDTOs)
+        private List<IItem> MapItems(List<ItemDTO> itemDTOs)
         {
-            List<Item> items = new List<Item>();
+            List<IItem> items = new List<IItem>();
             foreach (ItemDTO itemDTO in itemDTOs)
             {
-                Console.WriteLine($"RoomMapper: Mapping ItemDTO with damage={itemDTO.Damage}");
-                items.Add((Item)_itemMapper.Map(itemDTO));
+                items.Add(_itemMapper.Map(itemDTO));
             }
             return items;
         }

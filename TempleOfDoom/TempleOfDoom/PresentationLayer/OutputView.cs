@@ -8,5 +8,6 @@ namespace TempleOfDoom.PresentationLayer
 {
     public class OutputView
     {
+        
     }
 }

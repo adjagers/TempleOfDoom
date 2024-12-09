@@ -1,4 +1,9 @@
-﻿public interface IDoor
+﻿using TempleOfDoom.Interfaces;
+
+
+public interface IDoor : IGameObject
 {
-    void SetInitialState(bool v);
+    bool IsOpen { get; set; }
+    void Open();
+    void Close();
 }
