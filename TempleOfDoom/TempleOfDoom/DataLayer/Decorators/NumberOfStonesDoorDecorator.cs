@@ -3,7 +3,6 @@
     public class NumberOfStonesDoorDecorator : DoorDecorator
     {
         private readonly int _requiredStones;
-        private readonly Func<int> _getStonesInRoom;
         private int no_of_stones;
 
         public NumberOfStonesDoorDecorator(IDoor door, int no_of_stones) : base(door)
@@ -15,7 +14,6 @@
             : base(door)
         {
             _requiredStones = requiredStones;
-            _getStonesInRoom = getStonesInRoom ?? throw new ArgumentNullException(nameof(getStonesInRoom));
         }
 
         public override void Open()
@@ -33,7 +31,8 @@
 
         private bool HasExactNumberOfStones()
         {
-            return _getStonesInRoom() == _requiredStones;
+            Console.WriteLine("IMPLEMENT NUMBER OF STONES");
+            return false;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using TempleOfDoom.DataLayer.Models;
 
 namespace TempleOfDoom.DataLayer.Decorators
 {
@@ -26,9 +27,9 @@ namespace TempleOfDoom.DataLayer.Decorators
 
         private bool PlayerHasMatchingKey()
         {
-            // Simuleer de sleutelcontrole. Vervang dit met je eigen logica.
-            // Bijvoorbeeld: return Player.Keys.Contains(_color);
-            return true; // Voor testdoeleinden
+            Console.WriteLine($"The {_color} door has a matching key.");
+            return false;
+
         }
     }
 }
