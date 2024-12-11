@@ -5,17 +5,21 @@ using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.MapperStrategies;
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.DataLayer.ReaderStrategies;
-using TempleOfDoom.Interfaces; // Ensure the correct namespace for items
+using TempleOfDoom.HelperClasses;
+using TempleOfDoom.Interfaces;
+using TempleOfDoom.PresentationLayer; // Ensure the correct namespace for items
 
 namespace TempleOfDoom
 {
     public class Game
     {
         private GameLevel _gameLevel;
+        private RenderBuffer _renderBuffer;
 
         public Game(string fileName)
         {
             _gameLevel = LoadGameLevel(fileName);
+            _renderBuffer = new RenderBuffer();
         }
 
         private GameLevel LoadGameLevel(string fileName)
@@ -24,7 +28,6 @@ namespace TempleOfDoom
             GameLevelDTO gameLevelDTO = levelDataReader.ReadFile(fileName);
             GameLevelMapper gameLevelMapper = new GameLevelMapper();
             return (GameLevel)gameLevelMapper.Map(gameLevelDTO);
-      
         }
 
         private void WelcomeMessage(string levelPath)
@@ -57,7 +60,10 @@ namespace TempleOfDoom
 
             // Show the room based on currentRoomId
             ShowCurrentRoom();
+            _renderBuffer.Render();  // This will print the room layout to the console
         }
+
+
 
         private void ShowCurrentRoom()
         {
@@ -114,7 +120,7 @@ namespace TempleOfDoom
                     foreach (var item in room.Items)
                     {
                         // Print item details
-                        string itemDetails = $"     Item Type: {item.GetType().Name}, Position: ({item.Position?.getX()}, {item.Position?.getY()})";
+                        string itemDetails = $"Item Type: {item.GetType().Name}, Position: ({item.Position?.getX()}, {item.Position?.getY()})";
                         Console.WriteLine(itemDetails);
                     }
                 }
