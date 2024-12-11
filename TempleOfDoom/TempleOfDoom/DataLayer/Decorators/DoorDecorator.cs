@@ -7,14 +7,10 @@ using TempleOfDoom.DataLayer.Models;
 
 namespace TempleOfDoom.DataLayer.Decorators
 {
-    public class DoorDecorator : IDoor
+    public class DoorDecorator(IDoor door) : IDoor
     {
-        protected readonly IDoor _door;
+        protected readonly IDoor _door = door ?? throw new ArgumentNullException(nameof(door));
 
-        public DoorDecorator(IDoor door)
-        {
-                _door = door ?? throw new ArgumentNullException(nameof(door));
-        }
         // Eigenschap die de status doorgeeft van de originele deur
         public virtual bool IsOpen
         {
