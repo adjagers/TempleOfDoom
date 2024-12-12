@@ -2,34 +2,23 @@
 
 namespace TempleOfDoom.HelperClasses
 {
-    public class Dimensions
+     public class Dimensions
     {
-        private int width, height;
-
+        private readonly int _width, _height;
         public Dimensions(int width, int height)
         {
-            setDimensions(width, height);
+            _height = height;
+            _width = width;
         }
-
         public int getWidth()
         {
-            return width;
+            return _width;
         }
-
         public int getHeight()
         {
-            return height;
+            return _height;
         }
-
         public int[] getDimensions()
         {
-            return new int[] { width, height };  // Correcte manier om een array te retourneren
-        }
-
-        public void setDimensions(int width, int height)
-        {
-            this.width = width;
-            this.height = height;
-        }
-    }
+            return [_width, _height];
 }
