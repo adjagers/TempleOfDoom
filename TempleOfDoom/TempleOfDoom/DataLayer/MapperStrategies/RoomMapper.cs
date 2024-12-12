@@ -32,7 +32,6 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
             // Map basic properties
             Room room = new Room
             {
-                Id = roomDTO.Id,
                 Width = roomDTO.Width,
                 Height = roomDTO.Height
             };
