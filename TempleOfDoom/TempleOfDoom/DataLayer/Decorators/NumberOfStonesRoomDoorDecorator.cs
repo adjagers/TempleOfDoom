@@ -1,16 +1,16 @@
 ﻿namespace TempleOfDoom.DataLayer.Decorators
 {
-    public class NumberOfStonesDoorDecorator : DoorDecorator
+    public class NumberOfStonesRoomDoorDecorator : DoorDecorator
     {
         private readonly int _requiredStones;
         private int no_of_stones;
 
-        public NumberOfStonesDoorDecorator(IDoor door, int no_of_stones) : base(door)
+        public NumberOfStonesRoomDoorDecorator(IDoor door, int no_of_stones) : base(door)
         {
             this.no_of_stones = no_of_stones;
         }
 
-        public NumberOfStonesDoorDecorator(IDoor door, int requiredStones, Func<int> getStonesInRoom)
+        public NumberOfStonesRoomDoorDecorator(IDoor door, int requiredStones, Func<int> getStonesInRoom)
             : base(door)
         {
             _requiredStones = requiredStones;
