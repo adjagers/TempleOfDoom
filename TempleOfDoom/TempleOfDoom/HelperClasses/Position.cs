@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TempleOfDoom.HelperClasses
 {
-    public class Position
+public class Position
     {
         private readonly int _x, _y;
         public Position(int x, int y)
@@ -26,5 +22,5 @@ namespace TempleOfDoom.HelperClasses
         {
             return [_x, _y];
         }
-    }
+}
 }

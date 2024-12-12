@@ -10,10 +10,11 @@ namespace TempleOfDoom.DataLayer.Models
 {
     public class Room : IGameObject
     {
-        public int Id { get; set; }
+
         public string Type { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public List<IItem> Items { get; set; } = new();
     }
 }
 

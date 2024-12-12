@@ -1,14 +1,23 @@
-﻿internal class ToggleDoorDecorator : IDoor
+﻿using System;
+
+namespace TempleOfDoom.DataLayer.Decorators
 {
-    private IDoor door;
-
-    public ToggleDoorDecorator(IDoor door)
+    public class ToggleDoorDecorator : DoorDecorator
     {
-        this.door = door;
-    }
+        public ToggleDoorDecorator(IDoor door) : base(door) { }
 
-    public void SetInitialState(bool v)
-    {
-        Console.WriteLine("implement the init states");
+        public void Trigger()
+        {
+            if (_door.IsOpen)
+            {
+                base.Close();
+                Console.WriteLine("The door was toggled and is now closed.");
+            }
+            else
+            {
+                base.Open();
+                Console.WriteLine("The door was toggled and is now open.");
+            }
+        }
     }
 }
