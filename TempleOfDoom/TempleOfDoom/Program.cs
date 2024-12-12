@@ -39,8 +39,15 @@ namespace TempleOfDoom
             // Create an instance of Game using the loaded level
             Game game = new Game(levelPath);
 
-            // Render the game (could include details about the player, rooms, etc.)
-            game.Render(levelPath);
+            // Set the initial room ID (e.g., the starting room)
+            int currentRoomId = 3; // Replace with your actual starting room ID
+
+            // Render the game for the current room
+            game.Render(currentRoomId);
+
+            // Keep the console open
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }

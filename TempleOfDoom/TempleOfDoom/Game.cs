@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using TempleOfDoom.DataLayer.Models;
 using System.Linq;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.MapperStrategies;
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.DataLayer.ReaderStrategies;
+using TempleOfDoom.Enums;
 using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom.PresentationLayer; // Ensure the correct namespace for items
@@ -14,12 +15,11 @@ namespace TempleOfDoom
     public class Game
     {
         private GameLevel _gameLevel;
-        private RenderBuffer _renderBuffer;
+
 
         public Game(string fileName)
         {
             _gameLevel = LoadGameLevel(fileName);
-            _renderBuffer = new RenderBuffer();
         }
 
         private GameLevel LoadGameLevel(string fileName)
@@ -30,13 +30,9 @@ namespace TempleOfDoom
             return (GameLevel)gameLevelMapper.Map(gameLevelDTO);
         }
 
-        private void WelcomeMessage(string levelPath)
-        {
-            Console.WriteLine("   Welcome to Temple of Doom                                                            \n" +
-                   $"   Current Level: {levelPath}\n" +
-                   "----------------------------------------------------------------------------------------\n" +
-                   "----------------------------------------------------------------------------------------\n");
-        }
+
+
+        
 
         private string GetPlayerLives(Player player)
         {
@@ -51,58 +47,48 @@ namespace TempleOfDoom
                    "----------------------------------------------------------------------------------------\n" +
                    "----------------------------------------------------------------------------------------\n";
         }
-
-        internal void Render(string levelFilePath)
+                
+        private readonly Dictionary<Position, char> _frame = new();
+        
+        
+        public void SetPixel(Position pos, char value)
         {
-            WelcomeMessage(levelFilePath);
-            Console.WriteLine(GetPlayerLives(_gameLevel.Player));
-            Console.WriteLine(CopyrightMessage());
-
-            // Show the room based on currentRoomId
-            ShowCurrentRoom();
-            _renderBuffer.Render();  // This will print the room layout to the console
+            _frame[pos] = value;
+            Console.WriteLine(value);
         }
-
-
-
-        private void ShowCurrentRoom()
+        
+        
+        private void BuildItems(Room playerCurrentRoom)
         {
-            // Get the room by the player's currentRoomId
-            Room currentRoom = _gameLevel.Rooms.FirstOrDefault(r => r.Id == _gameLevel.Player.CurrentRoomId);
+            foreach (IItem item in playerCurrentRoom.Items)
+            {
+                SetPixel(item.Position, Elements.GetItemOnScreen(item));
+            }
+        }
+        
+            public void Render(int currentRoomId)
+            {
+                // Find the current room using the currentRoomId
+                Room currentRoom = _gameLevel.Rooms.FirstOrDefault(room => room.Id == currentRoomId);
+
+                if (currentRoom == null)
+                {
+                    Console.WriteLine($"Room with ID {currentRoomId} not found.");
+                    return;
+                }
+
+                // Call BuildItems with the current room
+                BuildItems(currentRoom);
+
+                // Render other game elements here...
+                // For example, you can render walls, the player character, etc.
+            }
             
-            if (currentRoom != null)
-            {
-                Console.WriteLine($"You are in Room: {currentRoom.Id}");
-                Console.WriteLine($"Room Size: {currentRoom.Width} x {currentRoom.Height}");
 
-                if (currentRoom.Items != null && currentRoom.Items.Any())
-                {
-                    Console.WriteLine("Items in this room:");
 
-                    foreach (var item in currentRoom.Items)
-                    {
-                        // Check if the item has a position
-                        if (item.Position != null)
-                        {
-                            Console.WriteLine($"- {item.GetType().Name} at ({item.Position.getX()}, {item.Position.getY()})");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"- {item.GetType().Name} (no position)");
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No items in this room.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("You are in an unknown room.");
-            }
-            PrintAllRoomsWithItems();
-        }
+
+
+
         
         public void PrintAllRoomsWithItems()
         {

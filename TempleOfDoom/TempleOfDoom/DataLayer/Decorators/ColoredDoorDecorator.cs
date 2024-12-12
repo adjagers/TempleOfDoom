@@ -1,4 +1,6 @@
-﻿namespace TempleOfDoom.DataLayer.Decorators
+﻿using TempleOfDoom.DataLayer.Models;
+
+namespace TempleOfDoom.DataLayer.Decorators
 {
     public class ColoredDoorDecorator : DoorDecorator
     {
@@ -21,7 +23,7 @@
                 Console.WriteLine($"The {_color} door remains closed. You need a {_color} key.");
             }
         }
-
+        
         private bool PlayerHasMatchingKey()
         {
             // For demonstration purposes, let's just assume the player doesn't have the key
