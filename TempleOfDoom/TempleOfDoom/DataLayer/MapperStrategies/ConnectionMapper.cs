@@ -5,52 +5,25 @@ using TempleOfDoom.Interfaces;
 public class ConnectionMapper : IMapper
 {
     private Player _player;
+    private readonly DoorFactory _doorFactory;
     public ConnectionMapper(Player player)
     {
         _player = player;
+        _doorFactory = new DoorFactory(_player);
     }
     public IGameObject Map(IDTO dto)
     {
         if (dto == null) return null;
+
         var connectionDTO = dto as ConnectionDTO;
         IDoor door = new BasicDoor(true);
         foreach (var dtoDoor in connectionDTO.Doors)
         {
-            switch (dtoDoor.Type)
-            {
-                case "colored":
-                    door.SetInitialState(false);
-                    door = new ColoredDoorDecorator(door, dtoDoor.Color, _player.Inventory);
-                    break;
-                case "toggle":
-                    door.SetInitialState(false);
-                    door = new ToggleDoorDecorator(door);
-                    break;
-                case "closing gate":
-                    door.SetInitialState(true);
-                    door = new ClosingGateDecorator(door);
-                    break;
-                case "open on odd":
-                    door = new OpenOnOddDoorDecorator(door, _player);
-                    break;
-                case "open on stones in room":
-                    door = new NumberOfStonesInRoomDoorDecorator(door, dtoDoor.No_of_stones);
-                    break;
-                default:
-                    break;
-            }
+            door = _doorFactory.CreateDoor(dtoDoor);
         }
+
         var connection = new Connection();
-        if (connectionDTO.NORTH == 0)
-        {
-            connection.EAST = connectionDTO.EAST;
-            connection.WEST = connectionDTO.WEST;
-        }
-        else
-        {
-            connection.NORTH = connectionDTO.NORTH;
-            connection.SOUTH = connectionDTO.SOUTH;
-        }
+        MapConnection(connection, connectionDTO);
         connection.Doors = door;
 
         DebugPrint(connection);
@@ -69,4 +42,19 @@ public class ConnectionMapper : IMapper
         }
         Console.WriteLine("and door is " + connection.Doors.GetType());
     }
+
+    private void MapConnection(Connection connection, ConnectionDTO connectionDTO)
+    {
+        if (connectionDTO.NORTH == 0)
+        {
+            connection.EAST = connectionDTO.EAST;
+            connection.WEST = connectionDTO.WEST;
+        }
+        else
+        {
+            connection.NORTH = connectionDTO.NORTH;
+            connection.SOUTH = connectionDTO.SOUTH;
+        }
+    }
+
 }

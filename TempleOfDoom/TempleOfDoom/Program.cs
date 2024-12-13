@@ -1,11 +1,10 @@
 ﻿using System;
-using TempleOfDoom.Interfaces;
-using TempleOfDoom.DataLayer.ReaderStrategies;
-using TempleOfDoom;
+using System.Text;
 using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.DataLayer;
-using TempleOfDoom.DataLayer.MapperStrategies;
 using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.DataLayer.ReaderStrategies;
+using TempleOfDoom.DataLayer.MapperStrategies;
+using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom
 {
@@ -13,22 +12,42 @@ namespace TempleOfDoom
     {
         static void Main(string[] args)
         {
-            string path = "C:\\Users\\Anton Jagers\\OneDrive\\Documenten\\Documenten\\GitHub\\TempleOfDoom\\TempleOfDoom\\TempleOfDoom\\TempleOfDoom.json";
-            LevelReader reader = new LevelReader(path);
-            GameLevelDTO levelData = reader.GameLevelDTO;
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.CursorVisible = false;
 
-            Console.WriteLine($"{levelData.Connections.Count}");
+            // Specify the path to the level data (e.g., JSON file)
+            string levelPath = "/Users/anton/Documents/GitHub/Tempeltje/TempleOfDoom/TempleOfDoom/GameLevels/TempleOfDoom.json";
 
-            if (levelData != null)
+            // Create an instance of the JsonLevelDataReader
+            ILevelDataReader levelDataReader = new JsonLevelDataReader();
+
+            // Read the game level data from the file
+            GameLevelDTO gameLevelDTO = levelDataReader.ReadFile(levelPath);
+
+            if (gameLevelDTO == null)
             {
-                IMapper mapper = new GameLevelMapper();
-                GameLevel gameLevel = (GameLevel)mapper.Map(levelData);
-                Console.WriteLine($"Player CurrentRoomID {gameLevel.Player.CurrentRoomId}");
+                Console.WriteLine("Failed to load the game level.");
+                return;
             }
-            else
-            {
-                Console.WriteLine("Failed to load level data.");
-            }
+
+            // Create an instance of the GameLevelMapper to map the DTO to GameLevel
+            GameLevelMapper gameLevelMapper = new GameLevelMapper();
+
+            // Map the GameLevelDTO to GameLevel
+            GameLevel gameLevel = (GameLevel)gameLevelMapper.Map(gameLevelDTO);
+
+            // Create an instance of Game using the loaded level
+            Game game = new Game(levelPath);
+
+            // Set the initial room ID (e.g., the starting room)
+            int currentRoomId = 3; // Replace with your actual starting room ID
+
+            // Render the game for the current room
+            game.Render(currentRoomId);
+
+            // Keep the console open
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }

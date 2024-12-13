@@ -16,7 +16,7 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
         public IGameObject Map(IDTO dto)
         {
             PlayerDTO playerDTO = dto as PlayerDTO;
-            return new Player()
+            return new Player
             {
                 CurrentRoomId = playerDTO.StartRoomId,
                 Lives = playerDTO.Lives,

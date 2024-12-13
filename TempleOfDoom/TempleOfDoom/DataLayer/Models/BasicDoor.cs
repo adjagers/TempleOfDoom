@@ -6,29 +6,45 @@ namespace TempleOfDoom.DataLayer.Models
     {
         private bool _isOpen;
 
-        public BasicDoor(bool initialState)
+        // Constructor voor initiële staat
+        public BasicDoor(bool initialState = false) // Standaard gesloten
         {
             _isOpen = initialState;
         }
 
-        public bool IsOpen()
+        // Eigenschap om de staat te lezen
+        public bool IsOpen
         {
-            return _isOpen;
+            get => _isOpen;
+            set => _isOpen = value;
         }
 
-        public void SetInitialState(bool state)
+        // Methode om de deur te openen
+        public virtual void Open()
         {
-            _isOpen = state;
+            if (!_isOpen)
+            {
+                _isOpen = true;
+                Console.WriteLine("The door is now open.");
+            }
+            else
+            {
+                Console.WriteLine("The door is already open.");
+            }
         }
 
-        public void Open()
+        // Methode om de deur te sluiten
+        public virtual void Close()
         {
-            _isOpen = true;
-        }
-
-        public void Close()
-        {
-            _isOpen = false;
+            if (_isOpen)
+            {
+                _isOpen = false;
+                Console.WriteLine("The door is now closed.");
+            }
+            else
+            {
+                Console.WriteLine("The door is already closed.");
+            }
         }
     }
 }

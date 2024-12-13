@@ -1,34 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TempleOfDoom.HelperClasses
 {
-    public class Position
+public class Position
     {
-        private int x, y;
+        private readonly int _x, _y;
         public Position(int x, int y)
         {
-            setPosition(x, y);
+            this._x = x;
+            this._y = y;
         }
-        public int getX()
+        public int GetX()
         {
-            return x;
+            return _x;
         }
-        public int getY()
+        public int GetY()
         {
-            return y;
+            return _y;
         }
-        public int[] getPosition()
+        public int[] GetPosition()
         {
-            return [x, y];
+            return [_x, _y];
         }
-        public void setPosition(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
+}
 }
