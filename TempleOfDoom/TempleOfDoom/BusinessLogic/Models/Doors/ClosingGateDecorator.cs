@@ -1,4 +1,5 @@
 ﻿using System;
+using TempleOfDoom.DataLayer.Models;
 
 namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
@@ -37,11 +38,10 @@ namespace TempleOfDoom.BusinessLogic.Models.Doors
                 base.OpenDoor();
             }
         }
-
-        public override bool GetState()
+        public override void Interact(Player player)
         {
-            return base.GetState();
+            OpenDoor();
+            CloseDoor();
         }
-
     }
 }

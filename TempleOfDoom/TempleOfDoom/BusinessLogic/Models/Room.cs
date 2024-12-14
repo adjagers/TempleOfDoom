@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TempleOfDoom.DataLayer.DTO;
+using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 
@@ -15,6 +16,10 @@ namespace TempleOfDoom.DataLayer.Models
         public string Type { get; set; }
         public Dimensions Dimensions { get; set; }
         public List<IItem> Items { get; set; }
+        public int CountSankraStonesInRoom()
+        {
+            return Items.OfType<SankaraStone>().Count();
+        }
     }
 }
 

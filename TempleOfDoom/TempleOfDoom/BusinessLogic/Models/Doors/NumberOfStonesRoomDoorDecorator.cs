@@ -4,16 +4,15 @@ namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class NumberOfStonesRoomDoorDecorator : DoorDecorator
     {
-        private readonly int _requiredStones;
-        private int no_of_stones;
+        private readonly int _requiredStonesRemaining;
 
-        public NumberOfStonesRoomDoorDecorator(IDoor door, int no_of_stones) : base(door)
+        public NumberOfStonesRoomDoorDecorator(IDoor door, int requiredStonesRemaining) : base(door)
         {
-            this.no_of_stones = no_of_stones;
+            this._requiredStonesRemaining = requiredStonesRemaining;
         }
         public override void Interact(Player player)
         {
-
+            if (player.CurrentRoom.CountSankraStonesInRoom() == _requiredStonesRemaining) base.OpenDoor();
         }
     }
 }
