@@ -1,4 +1,4 @@
-﻿using TempleOfDoom.Enums;
+﻿using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 

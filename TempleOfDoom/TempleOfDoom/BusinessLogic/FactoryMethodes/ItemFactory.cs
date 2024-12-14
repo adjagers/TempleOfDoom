@@ -1,12 +1,12 @@
 ﻿using TempleOfDoom.HelperClasses;
-using TempleOfDoom.Enums;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.DataLayer.DTO;
 using System;
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.Interfaces;
+using TempleOfDoom.BusinessLogic.Enums;
 
-namespace TempleOfDoom.DataLayer.FactoryMethodes
+namespace TempleOfDoom.BusinessLogic.FactoryMethodes
 {
     public class ItemFactory
     {
@@ -35,5 +35,5 @@ namespace TempleOfDoom.DataLayer.FactoryMethodes
         }
     }
 
-   
+
 }

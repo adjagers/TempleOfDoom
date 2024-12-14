@@ -1,7 +1,7 @@
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.Enums;
+namespace TempleOfDoom.BusinessLogic.Enums;
 
 public class Elements
 {
@@ -12,9 +12,9 @@ public class Elements
     public static readonly char PressureplateChar = 'D';
     public static readonly char BoobytrapChar = 'B';
     public static readonly char KeyChar = 'P';
-    
-    
-    
+
+
+
     public static char GetItemOnScreen(IItem item)
     {
         return item switch

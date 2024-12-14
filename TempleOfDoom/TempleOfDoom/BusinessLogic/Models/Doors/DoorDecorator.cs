@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TempleOfDoom.DataLayer.Models;
 
-namespace TempleOfDoom.DataLayer.Decorators
+namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class DoorDecorator(IDoor door) : IDoor
     {

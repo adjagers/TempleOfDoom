@@ -2,7 +2,7 @@
 
 namespace TempleOfDoom.HelperClasses
 {
-     public class Dimensions
+    public class Dimensions
     {
         private readonly int _width, _height;
         public Dimensions(int width, int height)
@@ -21,4 +21,6 @@ namespace TempleOfDoom.HelperClasses
         public int[] getDimensions()
         {
             return [_width, _height];
+        }
+    }
 }

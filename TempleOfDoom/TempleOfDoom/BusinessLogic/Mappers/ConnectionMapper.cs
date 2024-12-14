@@ -1,15 +1,14 @@
-﻿using TempleOfDoom.DataLayer.DTO;
+﻿using TempleOfDoom.BusinessLogic.Models.Doors;
+using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 
 public class ConnectionMapper : IMapper
 {
-    private Player _player;
     private readonly DoorFactory _doorFactory;
-    public ConnectionMapper(Player player)
+    public ConnectionMapper()
     {
-        _player = player;
-        _doorFactory = new DoorFactory(_player);
+        _doorFactory = new DoorFactory();
     }
     public IGameObject Map(IDTO dto)
     {

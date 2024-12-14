@@ -2,7 +2,7 @@
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DataLayer.MapperStrategies
+namespace TempleOfDoom.BusinessLogic.MapperStrategies
 {
     public class GameLevelMapper : IMapper
     {
@@ -18,14 +18,14 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
         public IGameObject Map(IDTO dto)
         {
             if (dto == null) return null;
-            
+
             GameLevelDTO gameLevelDTO = dto as GameLevelDTO;
             // Player Mapping
             GameLevel gameLevel = new GameLevel();
             gameLevel.Player = MapPlayer(gameLevelDTO);
 
             // Connection Mapping
-            _connectionMapper = new ConnectionMapper(gameLevel.Player);
+            _connectionMapper = new ConnectionMapper();
             gameLevel.Connections = MapConnections(gameLevelDTO);
 
             // Room Mapping & ItemMapper

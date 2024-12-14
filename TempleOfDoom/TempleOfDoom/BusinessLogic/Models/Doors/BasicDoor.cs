@@ -1,6 +1,7 @@
-﻿using TempleOfDoom.Interfaces;
+﻿using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DataLayer.Models
+namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class BasicDoor : IDoor
     {
@@ -48,7 +49,7 @@ namespace TempleOfDoom.DataLayer.Models
 
         public virtual void SetInitialState(bool isOpen)
         {
-            _isOpen=isOpen;
+            _isOpen = isOpen;
         }
 
         public void Interact(Player player)

@@ -1,9 +1,9 @@
 ﻿using System;
 using NUnit.Framework;
+using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic.FactoryMethodes;
 using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.DataLayer.FactoryMethodes;
 using TempleOfDoom.DataLayer.Models.Items;
-using TempleOfDoom.Enums;
 
 
 [TestFixture]

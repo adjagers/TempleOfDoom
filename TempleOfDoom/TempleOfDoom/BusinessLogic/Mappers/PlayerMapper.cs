@@ -8,7 +8,7 @@ using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DataLayer.MapperStrategies
+namespace TempleOfDoom.BusinessLogic.MapperStrategies
 {
 
     public class PlayerMapper : IMapper
@@ -18,7 +18,7 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
             PlayerDTO playerDTO = dto as PlayerDTO;
             return new Player
             {
-                CurrentRoomId = playerDTO.StartRoomId,
+                CurrentRoom = new Room(),
                 Lives = playerDTO.Lives,
                 Position = new Position(playerDTO.StartX, playerDTO.StartY)
             };

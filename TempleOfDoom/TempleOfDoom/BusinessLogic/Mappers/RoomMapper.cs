@@ -1,8 +1,9 @@
 ﻿using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DataLayer.MapperStrategies
+namespace TempleOfDoom.BusinessLogic.MapperStrategies
 {
     public class RoomMapper : IMapper
     {
@@ -32,8 +33,7 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
             // Map basic properties
             Room room = new Room
             {
-                Width = roomDTO.Width,
-                Height = roomDTO.Height
+                Dimensions = new Dimensions(roomDTO.Width, roomDTO.Height)
             };
 
             // Map items if present

@@ -1,7 +1,7 @@
-﻿using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.Enums;
+﻿using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.DataLayer.Models;
 
-namespace TempleOfDoom.DataLayer.Decorators
+namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class ColoredDoorDecorator : DoorDecorator
     {

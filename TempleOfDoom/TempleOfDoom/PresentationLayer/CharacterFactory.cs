@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using TempleOfDoom.DataLayer.Decorators;
+using TempleOfDoom.BusinessLogic.Models.Doors;
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;

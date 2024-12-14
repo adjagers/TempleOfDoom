@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TempleOfDoom.DataLayer.Decorators
+namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class ToggleDoorDecorator : DoorDecorator
     {
@@ -8,14 +8,14 @@ namespace TempleOfDoom.DataLayer.Decorators
 
         public void Trigger()
         {
-            if (_door.IsOpen)
+            if (_door.GetState())
             {
-                base.Close();
+                base.CloseDoor();
                 Console.WriteLine("The door was toggled and is now closed.");
             }
             else
             {
-                base.Open();
+                base.OpenDoor();
                 Console.WriteLine("The door was toggled and is now open.");
             }
         }

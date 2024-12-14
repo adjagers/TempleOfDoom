@@ -1,7 +1,7 @@
 ﻿using System;
 using TempleOfDoom.DataLayer.Models;
 
-namespace TempleOfDoom.DataLayer.Decorators
+namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class OpenOnOddDecorator : DoorDecorator
     {

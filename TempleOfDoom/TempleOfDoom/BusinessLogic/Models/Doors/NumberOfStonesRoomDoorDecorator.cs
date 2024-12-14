@@ -1,6 +1,6 @@
 ﻿using TempleOfDoom.DataLayer.Models;
 
-namespace TempleOfDoom.DataLayer.Decorators
+namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class NumberOfStonesRoomDoorDecorator : DoorDecorator
     {
@@ -13,7 +13,7 @@ namespace TempleOfDoom.DataLayer.Decorators
         }
         public override void Interact(Player player)
         {
-            player.CurrentRoomId
+
         }
     }
 }

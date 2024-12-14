@@ -2,13 +2,13 @@ using System;
 using TempleOfDoom.DataLayer.Models;
 using System.Linq;
 using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.DataLayer.MapperStrategies;
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.DataLayer.ReaderStrategies;
-using TempleOfDoom.Enums;
 using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
-using TempleOfDoom.PresentationLayer; // Ensure the correct namespace for items
+using TempleOfDoom.PresentationLayer;
+using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic.MapperStrategies; // Ensure the correct namespace for items
 
 namespace TempleOfDoom
 {
@@ -94,8 +94,7 @@ namespace TempleOfDoom
         {
             foreach (var room in _gameLevel.Rooms)
             {
-                // Print basic room details
-                Console.WriteLine($"Room ID: {room.Id}, Width: {room.Width}, Height: {room.Height}");
+
         
                 // Check if the room contains items
                 if (room.Items != null && room.Items.Any())
@@ -106,7 +105,7 @@ namespace TempleOfDoom
                     foreach (var item in room.Items)
                     {
                         // Print item details
-                        string itemDetails = $"Item Type: {item.GetType().Name}, Position: ({item.Position?.getX()}, {item.Position?.getY()})";
+                        string itemDetails = $"Item details hier printen zoals dimension)";
                         Console.WriteLine(itemDetails);
                     }
                 }

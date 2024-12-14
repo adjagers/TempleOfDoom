@@ -1,5 +1,5 @@
 ﻿using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.Enums;
+using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.HelperClasses;
 
 namespace TempleOfDoom.Interfaces;

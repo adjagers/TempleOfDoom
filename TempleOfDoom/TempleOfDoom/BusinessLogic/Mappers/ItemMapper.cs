@@ -1,9 +1,9 @@
 ﻿using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.DataLayer.FactoryMethodes;
 using TempleOfDoom.Interfaces;
+using TempleOfDoom.BusinessLogic.FactoryMethodes;
 
-namespace TempleOfDoom.DataLayer.MapperStrategies
+namespace TempleOfDoom.BusinessLogic.MapperStrategies
 {
     public class ItemMapper
     {
@@ -28,7 +28,7 @@ namespace TempleOfDoom.DataLayer.MapperStrategies
 
             if (item != null)
             {
-                Console.WriteLine($"ItemMapper: Mapped Positie:  X={item.Position?.getX()}, Y={item.Position?.getY()}");
+                Console.WriteLine($"ItemMapper: Mapped Positie:  X={item.Position?.GetX()}, Y={item.Position?.GetY()}");
             }
 
             return item;

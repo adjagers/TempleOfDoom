@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Moq;
-using TempleOfDoom.DataLayer.Decorators;
+using TempleOfDoom.BusinessLogic.Models.Decorators;
 
 namespace UnitTests
 {

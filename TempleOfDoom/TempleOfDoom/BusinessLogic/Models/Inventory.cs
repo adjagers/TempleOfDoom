@@ -1,5 +1,5 @@
-﻿using TempleOfDoom.DataLayer.Models.Items;
-using TempleOfDoom.Enums;
+﻿using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer.Models;

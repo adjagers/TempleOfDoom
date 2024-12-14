@@ -1,4 +1,4 @@
-﻿namespace TempleOfDoom.Enums;
+﻿namespace TempleOfDoom.BusinessLogic.Enums;
 
 public enum Color
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TempleOfDoom.DataLayer.Decorators
+namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class ClosingGateDecorator : DoorDecorator
     {
@@ -12,11 +12,11 @@ namespace TempleOfDoom.DataLayer.Decorators
             _hasClosed = false;
         }
 
-        public override void Close()
+        public override void CloseDoor()
         {
             if (!_hasClosed)
             {
-                base.Close();
+                base.CloseDoor();
                 _hasClosed = true; // Mark as permanently closed
                 Console.WriteLine("The gate has permanently closed.");
             }
@@ -26,7 +26,7 @@ namespace TempleOfDoom.DataLayer.Decorators
             }
         }
 
-        public override void Open()
+        public override void OpenDoor()
         {
             if (_hasClosed)
             {
@@ -34,29 +34,14 @@ namespace TempleOfDoom.DataLayer.Decorators
             }
             else
             {
-                base.Open();
+                base.OpenDoor();
             }
         }
 
-        public override bool IsOpen
+        public override bool GetState()
         {
-            get
-            {
-                // If permanently closed, always return false
-                return !_hasClosed && base.IsOpen;
-            }
-            set
-            {
-                // Prevent modifications if permanently closed
-                if (_hasClosed)
-                {
-                    Console.WriteLine("The gate is permanently closed. IsOpen cannot be modified.");
-                }
-                else
-                {
-                    base.IsOpen = value;
-                }
-            }
+            return base.GetState();
         }
+
     }
 }
