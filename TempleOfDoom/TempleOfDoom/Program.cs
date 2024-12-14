@@ -16,7 +16,7 @@ namespace TempleOfDoom
             Console.CursorVisible = false;
 
             // Specify the path to the level data (e.g., JSON file)
-            string levelPath = "C:\\Users\\Anton Jagers\\OneDrive\\Documenten\\Documenten\\GitHub\\TempleOfDoom\\TempleOfDoom\\TempleOfDoom\\GameLevels\\TempleOfDoom.json";
+            string levelPath = "C:\\Users\\Anton Jagers\\OneDrive\\Documenten\\Documenten\\GitHub\\TempleOfDoom\\TempleOfDoom\\TempleOfDoom\\DataLayer\\GameLevels\\TempleOfDoom.json";
 
             // Create an instance of the JsonLevelDataReader
             ILevelDataReader levelDataReader = new JsonLevelDataReader();
