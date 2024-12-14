@@ -1,4 +1,5 @@
 ﻿using System;
+using TempleOfDoom.DataLayer.Models;
 
 namespace TempleOfDoom.DataLayer.Decorators
 {
@@ -8,23 +9,9 @@ namespace TempleOfDoom.DataLayer.Decorators
         public OpenOnOddDecorator(IDoor door) : base(door)
         {
         }
-
-        public override void Open()
+        public override void Interact(Player player)
         {
-            if (PlayerHasOddLives())
-            {
-                base.Open();
-                Console.WriteLine("The door is open because you have an odd number of lives.");
-            }
-            else
-            {
-                Console.WriteLine("The door remains closed. You need an odd number of lives to open it.");
-            }
-        }
-
-        private bool PlayerHasOddLives()
-        {
-            return false;
+            if (player.NumberOfLivesIsOdd()) base.OpenDoor();
         }
     }
 }

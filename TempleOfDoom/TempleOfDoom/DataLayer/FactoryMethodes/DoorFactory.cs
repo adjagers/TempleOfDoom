@@ -1,16 +1,10 @@
 ﻿using TempleOfDoom.DataLayer.Decorators;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.Enums;
 
 public class DoorFactory
 {
-    private readonly Player _player;
-
-    public DoorFactory(Player player)
-    {
-        _player = player ?? throw new ArgumentNullException(nameof(player));
-    }
-
     public IDoor CreateDoor(DoorDTO dtoDoor)
     {
         if (dtoDoor == null)
@@ -22,7 +16,10 @@ public class DoorFactory
         switch (dtoDoor.Type.ToLower())
         {
             case "colored":
-                door = new ColoredDoorDecorator(door, dtoDoor.Color);
+                Color keyColor =
+                Enum.Parse<Color>(dtoDoor.Color ?? throw new InvalidDataException("A key needs a color value"),
+                true);
+                door = new ColoredDoorDecorator(door, keyColor);
                 break;
             case "toggle":
                 door = new ToggleDoorDecorator(door);

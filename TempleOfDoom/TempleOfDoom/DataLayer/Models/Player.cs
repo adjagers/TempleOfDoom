@@ -8,7 +8,7 @@ namespace TempleOfDoom.DataLayer.Models
 {
     public class Player : IGameObject
     {
-        public int CurrentRoomId { get; set; }
+        public Room CurrentRoom { get; set; }
         public Position Position { get; set; }
         public int Lives { get; set; }
         
@@ -17,6 +17,11 @@ namespace TempleOfDoom.DataLayer.Models
         public void AddItemInventory(IItem item)
         {
            Inventory.AddItem(item);
+        }
+        public bool NumberOfLivesIsOdd()
+        {
+            if(Lives%2==1) return true;
+            return false;
         }
     }
 }

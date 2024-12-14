@@ -1,14 +1,21 @@
-﻿using TempleOfDoom.Interfaces;
+﻿using TempleOfDoom.DataLayer.Models.Items;
+using TempleOfDoom.Enums;
+using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer.Models;
 
 public class Inventory
 {
     
-    private ICollection<IItem> Items { get; } = new List<IItem>();
+    private ICollection<IItem> _Items { get; } = new List<IItem>();
 
     public void AddItem(IItem item)
     {
-        Items.Add(item);
+        _Items.Add(item);
+    }
+
+    public bool HasKey(Color color)
+    {
+        return _Items.OfType<Key>().Any(key => key.Color.Equals(color));
     }
 }

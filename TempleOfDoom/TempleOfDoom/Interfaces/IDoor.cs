@@ -1,9 +1,12 @@
-﻿using TempleOfDoom.Interfaces;
+﻿using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.Interfaces;
 
 
 public interface IDoor : IGameObject
 {
-    bool IsOpen { get; set; }
-    void Open();
-    void Close();
+    void OpenDoor();
+    void CloseDoor();
+    void SetInitialState(bool isOpen);
+    public bool GetState();
+    public void Interact(Player player);
 }
