@@ -83,13 +83,7 @@ namespace TempleOfDoom
                 // Render other game elements here...
                 // For example, you can render walls, the player character, etc.
             }
-            
-
-
-
-
-
-        
+           
         public void PrintAllRoomsWithItems()
         {
             foreach (var room in _gameLevel.Rooms)
@@ -111,7 +105,7 @@ namespace TempleOfDoom
                 }
                 else
                 {
-                    Console.WriteLine("   No items in this room.");
+                    Console.WriteLine("No items in this room.");
                 }
         
                 Console.WriteLine(); // Space between rooms

@@ -12,13 +12,22 @@ namespace TempleOfDoom.DataLayer.Models
 {
     public class Room : IGameObject
     {
-        public int Id { get; set; }
         public string Type { get; set; }
         public Dimensions Dimensions { get; set; }
         public List<IItem> Items { get; set; }
+
+        public List<Room> AdjacentRooms { get; set; }
         public int CountSankraStonesInRoom()
         {
             return Items.OfType<SankaraStone>().Count();
+        }
+
+        public void AddAdjacentRoom(Room room)
+        {
+            if (!AdjacentRooms.Contains(room))
+            {
+                AdjacentRooms.Add(room);
+            }
         }
     }
 }

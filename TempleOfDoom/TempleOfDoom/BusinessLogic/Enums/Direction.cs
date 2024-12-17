@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TempleOfDoom.Interfaces
+namespace TempleOfDoom.BusinessLogic.Enums
 {
-    public interface IMapper
+    public enum Direction
     {
-        public IGameObject Map(IDTO dto);
+        NORTH,
+        SOUTH,
+        EAST,
+        WEST  
     }
 }

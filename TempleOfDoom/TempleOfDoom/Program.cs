@@ -5,6 +5,8 @@ using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.DataLayer.ReaderStrategies;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom.BusinessLogic.MapperStrategies;
+using TempleOfDoom.PresentationLayer;
+using TempleOfDoom.BusinessLogic.FactoryMethodes;
 
 namespace TempleOfDoom
 {
@@ -34,7 +36,7 @@ namespace TempleOfDoom
             GameLevelMapper gameLevelMapper = new GameLevelMapper();
 
             // Map the GameLevelDTO to GameLevel
-            GameLevel gameLevel = (GameLevel)gameLevelMapper.Map(gameLevelDTO);
+            GameLevel gameLevel = GameLevelFactory.Create(gameLevelDTO);
 
             // Create an instance of Game using the loaded level
             Game game = new Game(levelPath);
