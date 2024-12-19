@@ -8,26 +8,28 @@ using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom.PresentationLayer;
 using TempleOfDoom.BusinessLogic.Enums;
-using TempleOfDoom.BusinessLogic.MapperStrategies; // Ensure the correct namespace for items
+using TempleOfDoom.BusinessLogic.FactoryMethodes;
 
 namespace TempleOfDoom
 {
     public class Game
     {
         private GameLevel _gameLevel;
+        private GameLevelFactory _gameLevelFactory;
 
 
         public Game(string fileName)
         {
             _gameLevel = LoadGameLevel(fileName);
+
         }
 
         private GameLevel LoadGameLevel(string fileName)
         {
             ILevelDataReader levelDataReader = new JsonLevelDataReader();
             GameLevelDTO gameLevelDTO = levelDataReader.ReadFile(fileName);
-            GameLevelMapper gameLevelMapper = new GameLevelMapper();
-            return (GameLevel)gameLevelMapper.Map(gameLevelDTO);
+            _gameLevelFactory = new GameLevelFactory();
+           return (GameLevel)_gameLevelFactory.Create(gameLevelDTO);
         }
 
 
@@ -66,22 +68,8 @@ namespace TempleOfDoom
             }
         }
         
-            public void Render(int currentRoomId)
+            public void Render()
             {
-                // Find the current room using the currentRoomId
-                Room currentRoom = _gameLevel.Rooms.FirstOrDefault(room => room.Id == currentRoomId);
-
-                if (currentRoom == null)
-                {
-                    Console.WriteLine($"Room with ID {currentRoomId} not found.");
-                    return;
-                }
-
-                // Call BuildItems with the current room
-                BuildItems(currentRoom);
-
-                // Render other game elements here...
-                // For example, you can render walls, the player character, etc.
             }
            
         public void PrintAllRoomsWithItems()

@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TempleOfDoom.DataLayer.DTO;
+using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.BusinessLogic.Models
 {
-    public class Connection : IGameObject
+    public class Connection(Room connectedRoom, IDoor door) : IGameObject
     {
-        public int NORTH { get; set; }
-        public int SOUTH { get; set; }
-        public IDoor Doors { get; set; }
-        public int WEST { get; set; }
-        public int EAST { get; set; }
+        public IDoor Door { get; set; } = door;
+        public Room ConnectedRoom { get; set; } = connectedRoom;
     }
 }

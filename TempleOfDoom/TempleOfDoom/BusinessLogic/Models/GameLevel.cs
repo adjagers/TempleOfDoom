@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.DataLayer.DTO;
+﻿using TempleOfDoom.BusinessLogic.Models;
+using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 

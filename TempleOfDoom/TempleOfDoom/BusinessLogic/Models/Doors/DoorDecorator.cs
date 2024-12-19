@@ -1,28 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TempleOfDoom.DataLayer.Models;
+﻿using TempleOfDoom.DataLayer.Models;
 
 namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
-    public class DoorDecorator(IDoor door) : IDoor
+    public class DoorDecorator : IDoor
     {
-        protected readonly IDoor _door = door ?? throw new ArgumentNullException(nameof(door));
+        protected readonly IDoor _door;
 
-        // Eigenschap die de status doorgeeft van de originele deur
+        // Constructor
+        public DoorDecorator(IDoor door)
+        {
+            _door = door ?? throw new ArgumentNullException(nameof(door));
+        }
+
+        // DecoratedDoor property to access the wrapped door
+        public IDoor DecoratedDoor => _door;
+
         public virtual void OpenDoor()
         {
             Console.WriteLine("Decorator: Adding functionality before opening the door.");
-            _door.OpenDoor(); // Roep de functionaliteit van de oorspronkelijke deur aan
+            _door.OpenDoor(); // Call the original door's functionality
             Console.WriteLine("Decorator: Additional functionality after opening the door.");
         }
 
         public virtual void CloseDoor()
         {
             Console.WriteLine("Decorator: Adding functionality before closing the door.");
-            _door.CloseDoor(); // Roep de functionaliteit van de oorspronkelijke deur aan
+            _door.CloseDoor(); // Call the original door's functionality
             Console.WriteLine("Decorator: Additional functionality after closing the door.");
         }
 
