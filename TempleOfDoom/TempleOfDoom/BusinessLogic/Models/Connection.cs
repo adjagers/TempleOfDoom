@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DataLayer.Models
+namespace TempleOfDoom.BusinessLogic.Models
 {
     public class Connection : IGameObject
     {

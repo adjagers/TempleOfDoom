@@ -20,7 +20,7 @@ namespace TempleOfDoom.HelperClasses
         }
         public int[] getDimensions()
         {
-            return [_width, _height];
+            return new int[] { _width, _height };
         }
     }
 }

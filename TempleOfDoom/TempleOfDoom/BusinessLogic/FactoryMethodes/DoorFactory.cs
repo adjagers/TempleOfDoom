@@ -1,7 +1,7 @@
 ﻿using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.BusinessLogic.Models.Doors;
 using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.BusinessLogic.FactoryMethodes;
 
 public class DoorFactory
 {
