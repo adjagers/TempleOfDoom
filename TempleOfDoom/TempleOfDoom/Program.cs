@@ -1,34 +1,34 @@
 ﻿using System;
-using TempleOfDoom.Interfaces;
-using TempleOfDoom.DataLayer.ReaderStrategies;
-using TempleOfDoom;
+using System.Text;
 using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.DataLayer;
-using TempleOfDoom.DataLayer.MapperStrategies;
 using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.DataLayer.ReaderStrategies;
+using TempleOfDoom.Interfaces;
+using TempleOfDoom.BusinessLogic.FactoryMethodes;
 
 namespace TempleOfDoom
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            string path = "C:\\Users\\Anton Jagers\\OneDrive\\Documenten\\Documenten\\GitHub\\TempleOfDoom\\TempleOfDoom\\TempleOfDoom\\TempleOfDoom.json";
-            LevelReader reader = new LevelReader(path);
-            GameLevelDTO levelData = reader.GameLevelDTO;
-
-            Console.WriteLine($"{levelData.Connections.Count}");
-
-            if (levelData != null)
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.CursorVisible = false;
+            // Specify the path to the level data (e.g., JSON file)
+            string levelPath = "/Users/anton/Desktop/TempleOfDoom.nosync/TempleOfDoom/TempleOfDoom/DataLayer/GameLevels/TempleOfDoom.json";
+            // Create an instance of the JsonLevelDataReader
+            ILevelDataReader levelDataReader = new JsonLevelDataReader();
+            // Read the game level data from the file
+            GameLevelDTO gameLevelDTO = levelDataReader.ReadFile(levelPath);
+            if (gameLevelDTO == null)
             {
-                IMapper mapper = new GameLevelMapper();
-                GameLevel gameLevel = (GameLevel)mapper.Map(levelData);
-                Console.WriteLine($"Player CurrentRoomID {gameLevel.Player.CurrentRoomId}");
+                Console.WriteLine("Failed to load the game level.");
+                return;
             }
-            else
-            {
-                Console.WriteLine("Failed to load level data.");
-            }
+            // Create an instance of Game using the loaded level
+            Game game = new Game(levelPath);
+            // Render the game for the current room
+            game.Render();
         }
     }
 }

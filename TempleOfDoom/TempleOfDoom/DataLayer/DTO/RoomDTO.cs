@@ -9,10 +9,10 @@ namespace TempleOfDoom.DataLayer.DTO
 {
     public class RoomDTO : IDTO
     {
-        public int id { get; set; }
-        public string type { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
-        public ItemDTO[] items { get; set; }
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public List<ItemDTO> Items { get; set; } = new();
     }
 }
