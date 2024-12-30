@@ -1,7 +1,7 @@
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.BusinessLogic.Enums;
+namespace TempleOfDoom.PresentationLayer;
 
 public class Elements
 {
