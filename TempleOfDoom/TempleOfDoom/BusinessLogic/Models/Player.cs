@@ -14,12 +14,14 @@ namespace TempleOfDoom.DataLayer.Models
         public int Lives { get; set; }
 
         public Inventory Inventory { get; }
-
+        public Player()
+        {
+            this.Inventory = new Inventory();
+        }
         public void AddItemInventory(IItem item)
         {
             Inventory.AddItem(item);
         }
-
         public bool NumberOfLivesIsOdd()
         {
             if (Lives % 2 == 1) return true;

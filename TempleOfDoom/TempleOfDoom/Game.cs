@@ -57,6 +57,7 @@ public class Game
         Room currentRoom = _gameLevel.Player.CurrentRoom;
         _debugPrinter = new DebugPrinter(currentRoom);
         RenderRoomGrid(currentRoom);
+        currentRoom.ItemCheck(_gameLevel.Player);
         
         // TODO:: Needs to replaced into a different class.
         HandleDoorTransition(currentRoom);

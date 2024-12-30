@@ -17,6 +17,6 @@ public class Key : IItem
     public void Interact(Player player)
     {
         player.AddItemInventory(this);
-        
+        Position = null;
     }
 }

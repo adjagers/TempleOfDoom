@@ -58,9 +58,16 @@ namespace TempleOfDoom.DataLayer.Models
             }
             return null;
         }
-
-        
+        public void ItemCheck(Player player)
+        {
+            foreach(IItem item in Items)
+            {
+                if(item.Position==null) continue;
+                if(player.Position.GetX()==item.Position.GetX()&&player.Position.GetY()==item.Position.GetY())
+                {
+                    item.Interact(player);
+                }
+            }
+        }
     }
-    
 }
-
