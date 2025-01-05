@@ -1,10 +1,10 @@
-﻿using TempleOfDoom.BusinessLogic.FactoryMethodes;
+﻿using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.BusinessLogic.FactoryMethods
+namespace TempleOfDoom.BusinessLogic.FactoryMethodes
 {
     public class RoomFactory
     {
@@ -17,6 +17,7 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethods
 
             Room room = new Room
             {
+                
                 Dimensions = new Dimensions(roomDTO.Width, roomDTO.Height),
                 Items = roomDTO.Items?
                             .Select(itemDTO => itemFactory.CreateItem(itemDTO))
@@ -26,5 +27,11 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethods
 
             return room;
         }
+
+        public void addConnectionsToRoom()
+        {
+        }
+        
+        
     }
 }

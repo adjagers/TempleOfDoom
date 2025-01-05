@@ -34,6 +34,7 @@ namespace TempleOfDoom.BusinessLogic.Models.Doors
             _door.SetInitialState(isOpen);
         }
 
+
         public virtual bool GetState()
         {
             return _door.GetState();

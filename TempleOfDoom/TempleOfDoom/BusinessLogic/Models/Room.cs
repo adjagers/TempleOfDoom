@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.HelperClasses;
@@ -15,18 +16,15 @@ namespace TempleOfDoom.DataLayer.Models
     {
         public string Type { get; set; }
         public Dimensions Dimensions { get; set; }
+
+        public List<Connection> Connections { get; set; } = new List<Connection>();
+
         public List<IItem> Items { get; set; }
 
         public Dictionary<Direction, Room> AdjacentRooms { get; set; } = new();
         public int CountSankraStonesInRoom()
         {
             return Items.OfType<SankaraStone>().Count();
-        }
-        
-        public bool IsWallOrDoor(int x, int y, Room currentRoom)
-        {
-            return x == 0 || x == currentRoom.Dimensions.getWidth() - 1 ||
-                   y == 0 || y == currentRoom.Dimensions.getHeight() - 1;
         }
         
         public bool IsDoor(int x, int y, Room currentRoom)
@@ -43,6 +41,14 @@ namespace TempleOfDoom.DataLayer.Models
             int y = playerPosition.GetY();
             return IsDoor(x, y, this); 
         }
+
+        public bool IsWall(int x, int y, Room currentRoom)
+        {
+            // Check if the position is at any of the room boundaries (walls)
+            return x == 0 || x == currentRoom.Dimensions.getWidth() - 1 ||
+                   y == 0 || y == currentRoom.Dimensions.getHeight() - 1;
+        }
+
 
         public Direction? GetDoorDirection(Position playerPosition)
         {

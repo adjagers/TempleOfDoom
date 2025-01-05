@@ -2,6 +2,7 @@ using TempleOfDoom;
 using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.BusinessLogic.FactoryMethodes;
 using TempleOfDoom.BusinessLogic.HelperClasses;
+using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
@@ -20,6 +21,7 @@ public class Game : IObserver<Player>
         _gameLevel = LoadGameLevel(fileName);
         _movementHandler = new InputHandler(_gameLevel);
         _gameLevel.Player.Subscribe(this);
+        
     }
 
     private GameLevel LoadGameLevel(string fileName)
@@ -58,6 +60,10 @@ public class Game : IObserver<Player>
     {
         Console.Clear(); // Clear the console to render again
         Room currentRoom = _gameLevel.Player.CurrentRoom;
+        currentRoom.Connections = _gameLevel.Connections;
+        
+        
+        
         _debugPrinter = new DebugPrinter(currentRoom);
         RenderRoomGrid(currentRoom);
         currentRoom.ItemCheck(_gameLevel.Player);
@@ -73,39 +79,66 @@ public class Game : IObserver<Player>
     private void RenderRoomGrid(Room currentRoom)
     {
         CharacterFactory characterFactory = new CharacterFactory();
+
+
+        if (currentRoom.Connections.Count > 0)
+            foreach (var connection in currentRoom.Connections)
+            {
+                Console.WriteLine(connection.Door);
+            }
+        else
+        {
+            Console.WriteLine("leeg");
+        }
+        
+
         for (int y = 0; y < currentRoom.Dimensions.getHeight(); y++)
         {
             for (int x = 0; x < currentRoom.Dimensions.getWidth(); x++)
             {
-                IItem itemAtPosition = currentRoom.Items.FirstOrDefault(item => item.Position?.GetX() == x && item.Position?.GetY() == y);
+                // Get the item at the current position (if any)
+                IItem itemAtPosition =
+                    currentRoom.Items.FirstOrDefault(item => item.Position?.GetX() == x && item.Position?.GetY() == y);
 
-                if (itemAtPosition != null)
+
+                // Determine which type of object is in the current cell (Player, Item, Door, Wall, or Empty)
+                if (currentRoom.IsDoor(x, y, currentRoom))
                 {
-                    Console.Write($" {characterFactory.GetCharacter(itemAtPosition)} "); // Toon item-karakter
+                    RenderCell(characterFactory.GetDoorCharacterAndColor());
+                }
+                else if (itemAtPosition != null)
+                {
+                    RenderCell(characterFactory.GetCharacterWithColor(itemAtPosition));
                 }
                 else if (_gameLevel.Player.IsPlayerPosition(x, y))
                 {
-                    Console.Write($" {characterFactory.GetCharacter(_gameLevel.Player)} "); // Speler weergeven
+                    RenderCell(characterFactory.GetCharacterWithColor(_gameLevel.Player));
+                }
+                else if (currentRoom.IsWall(x, y, currentRoom))
+                {
+                    RenderCell(characterFactory.GetWallCharacterAndColor());
                 }
                 else
                 {
-                    RenderWallOrDoor(x, y, currentRoom); // Toon muren of deuren
+                    Console.Write("   "); // Empty space for other positions
                 }
             }
+
             Console.WriteLine();
         }
     }
-    private void RenderWallOrDoor(int x, int y, Room currentRoom)
+
+    private void RenderCell((char character, ConsoleColor color) characterAndColor)
     {
-        if (currentRoom.IsWallOrDoor(x, y, currentRoom))
-        {
-            Console.Write(currentRoom.IsDoor(x, y, currentRoom) ? " D " : " # ");
-        }
-        else
-        {
-            Console.Write("   "); // Lege ruimte
-        }
+        Console.ForegroundColor = characterAndColor.color;
+        Console.Write($" {characterAndColor.character} ");
+        Console.ResetColor();
     }
+
+
+// Method to check if the position is a wall (implement your wall check logic here)
+
+
     private void HandleDoorTransition(Room currentRoom)
     {
         // Check if the player is in the current room and is on the door

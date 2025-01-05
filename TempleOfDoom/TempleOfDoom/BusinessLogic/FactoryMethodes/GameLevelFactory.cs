@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.BusinessLogic.FactoryMethodes;
-using TempleOfDoom.BusinessLogic.FactoryMethods;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
@@ -32,7 +31,6 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
 
             // Stap 3: Verzamel de kamers in een lijst
             List<Room> rooms = _roomDict.Values.ToList();
-
             Player player = new Player
             {
                 Lives = gameLevelDTO.Player.Lives,
@@ -49,6 +47,10 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
                 Rooms = rooms,
                 Player = player
             };
+        }
+
+        private void AddConnectionsToRoom()
+        {
         }
         
         private void CreateRooms(List<RoomDTO> roomDtos)
@@ -103,6 +105,9 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
                         connections.Add(new Connection(_roomDict[roomId.Value], door));
                     }
                 }
+                
+          
+                
                 AddConnection(connectionDto.NORTH);
                 AddConnection(connectionDto.EAST);
                 AddConnection(connectionDto.SOUTH);

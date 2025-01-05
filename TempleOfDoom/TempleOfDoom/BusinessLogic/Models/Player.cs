@@ -33,10 +33,23 @@ namespace TempleOfDoom.DataLayer.Models
 
         public void MoveTo(Position newPosition)
         {
-            // Notify observers about the player movement
+            // Check if the new position is a wall
+            if (CurrentRoom.IsWall(newPosition.GetX(), newPosition.GetY(), CurrentRoom) &&
+                !CurrentRoom.IsDoor(newPosition.GetX(), newPosition.GetY(), CurrentRoom))
+            {
+                // Optionally, notify the player that the move is blocked by a wall
+                Console.WriteLine("Cannot move, it's a wall!");
+                return; // Do not change position if it's a wall
+            }
+
+            // Update the position if it's not a wall (or if it's a door)
             Position = newPosition;
+
+            // Notify observers about the player movement
             NotifyObservers();
         }
+
+
 
         private void NotifyObservers()
         {
