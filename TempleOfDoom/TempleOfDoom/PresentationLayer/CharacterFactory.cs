@@ -20,8 +20,8 @@ public class CharacterFactory
     {
         if (obj == null) return ' '; // Default voor null objecten
 
-        var type = obj.GetType();
-        return _typeToCharacterMap.TryGetValue(type, out var character) 
+        Type type = obj.GetType();
+        return _typeToCharacterMap.TryGetValue(type, out char character) 
             ? character 
             : ' '; // Default voor onbekende types
     }

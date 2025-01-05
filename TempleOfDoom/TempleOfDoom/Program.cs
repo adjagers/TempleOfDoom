@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using TempleOfDoom.PresentationLayer;
 
 namespace TempleOfDoom
 {
@@ -6,16 +7,50 @@ namespace TempleOfDoom
     {
         static void Main(string[] args)
         {
+            
+            // TODO:: 1. Pressure plates werkend en de manier van observer toepassen.
+            // TODO:: 2 ZORGEN DAT DE POSITIONERING VAN DE SPELER KLOPT!
+            // TODO:: 3 Kijken en opsommen wat we momenteel nog missen.
             Console.OutputEncoding = Encoding.UTF8;
             Console.CursorVisible = false;
-            
-            // TODO:: Making sure the level path is dynamic for now its easier because of the testing.
-            
-            string levelPath = "C:/Users/marco/source/repos/TempleOfDoom/TempleOfDoom/TempleOfDoom/DataLayer/GameLevels/TempleOfDoom.json";
-            
-            // TODO:: Ik denk dat je de level path net zo goed alleen mee kan geven in de .Start
-            Game game = new Game(levelPath);
-            game.Start();
+
+            string levelsDirectory = Path.Combine(AppContext.BaseDirectory, "../../../DataLayer/GameLevels");
+
+            // Try to get the level files
+            string[] levelFiles = DialogueSystem.GetLevelFiles(levelsDirectory);
+
+            if (levelFiles == null)
+            {
+                // If directory doesn't exist or no level files found, exit early
+                return;
+            }
+
+            // Display available levels
+            DialogueSystem.PrintAvailableLevels(levelFiles);
+
+            // Get the user's level selection
+            int selectedLevel = DialogueSystem.GetUserLevelSelection(levelFiles.Length);
+
+            if (selectedLevel != -1)
+            {
+                string levelPath = levelFiles[selectedLevel - 1];
+
+                try
+                {
+                    // Start the game with the selected level
+                    Game game = new Game(levelPath);
+                    game.Start();
+                }
+                catch (Exception ex)
+                {
+                    // Catch any exception that occurs during game initialization or start
+                    DialogueSystem.PrintError($"An error occurred while starting the game: {ex.Message}");
+                }
+            }
+            else
+            {
+                DialogueSystem.PrintInvalidSelection();
+            }
         }
     }
 }

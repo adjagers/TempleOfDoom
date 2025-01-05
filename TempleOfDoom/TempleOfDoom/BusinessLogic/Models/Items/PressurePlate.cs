@@ -14,7 +14,7 @@ public class PressurePlate : IItem, IObservable<bool>
     }
     public void Interact(Player player)
     {
-       foreach(var observer in _observers)
+        foreach (IObserver<bool> observer in _observers)
         {
             observer.OnNext(true);
         }

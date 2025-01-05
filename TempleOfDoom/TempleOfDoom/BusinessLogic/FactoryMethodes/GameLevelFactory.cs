@@ -28,7 +28,7 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
             ConnectRoomsWithConnections(gameLevelDTO.Connections);
 
             // Stap 2: Maak verbindingen met deuren en bewaar deze in een lijst
-            var connectedRoomsWithDoors = CreateRoomConnectionsWithDoors(gameLevelDTO.Connections);
+            List<Connection> connectedRoomsWithDoors = CreateRoomConnectionsWithDoors(gameLevelDTO.Connections);
 
             // Stap 3: Verzamel de kamers in een lijst
             List<Room> rooms = _roomDict.Values.ToList();

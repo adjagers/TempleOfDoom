@@ -1,14 +1,15 @@
 ﻿using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.BusinessLogic.Models.Doors;
 using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.BusinessLogic.FactoryMethodes;
+
+namespace TempleOfDoom.BusinessLogic.FactoryMethodes;
 
 public class DoorFactory
 {
     public IDoor CreateDoor(List<DoorDTO> dtoDoors)
     {
         IDoor door = new BasicDoor(initialState: false);
-        foreach (var dtoDoor in dtoDoors)
+        foreach (DoorDTO dtoDoor in dtoDoors)
         {
             switch (dtoDoor.Type.ToLower())
             {

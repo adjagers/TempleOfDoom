@@ -13,9 +13,9 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethods
             if (dto is not RoomDTO roomDTO)
                 throw new ArgumentException("Invalid DTO type provided for Room creation.", nameof(dto));
 
-            var itemFactory = new ItemFactory();
+            ItemFactory itemFactory = new();
 
-            var room = new Room
+            Room room = new Room
             {
                 Dimensions = new Dimensions(roomDTO.Width, roomDTO.Height),
                 Items = roomDTO.Items?

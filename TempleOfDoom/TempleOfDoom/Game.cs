@@ -8,7 +8,7 @@ using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom.PresentationLayer;
 
-public class Game
+public class Game : IObserver<Player>
 {
     private GameLevel _gameLevel;
     private InputHandler _movementHandler;
@@ -19,6 +19,7 @@ public class Game
     {
         _gameLevel = LoadGameLevel(fileName);
         _movementHandler = new InputHandler(_gameLevel);
+        _gameLevel.Player.Subscribe(this);
     }
 
     private GameLevel LoadGameLevel(string fileName)
@@ -39,21 +40,23 @@ public class Game
     public void Start()
     {
         bool isPlaying = true;
+        Render();
+
+
         while (isPlaying)
         {
-            Console.Clear();
-            Render();
             ConsoleKeyInfo keyInfo = Console.ReadKey();
-            
-            
-            
+        
             _movementHandler.HandleMovement(keyInfo.Key);
             _movementHandler.QuitGame(keyInfo.Key, ref isPlaying);
         }
     }
 
+
+
     public void Render()
     {
+        Console.Clear(); // Clear the console to render again
         Room currentRoom = _gameLevel.Player.CurrentRoom;
         _debugPrinter = new DebugPrinter(currentRoom);
         RenderRoomGrid(currentRoom);
@@ -105,17 +108,18 @@ public class Game
     }
     private void HandleDoorTransition(Room currentRoom)
     {
-        // Check of de speler zich op een deur bevindt
+        // Check if the player is in the current room and is on the door
         if (_gameLevel.Player.CurrentRoom == currentRoom && currentRoom.IsPlayerOnDoor(_gameLevel.Player.Position))
         {
             Direction? doorDirection = currentRoom.GetDoorDirection(_gameLevel.Player.Position);
         
             if (doorDirection.HasValue)
             {
+                // Get the adjacent room from the door direction
                 Room nextRoom = currentRoom.AdjacentRooms[doorDirection.Value];
                 Console.WriteLine($"Moving player through the {doorDirection.Value} door to the {nextRoom.Type} room.");
 
-                // Verplaats de speler naar de volgende kamer
+                // Move the player through the door to the next room
                 _gameLevel.Player.MoveThroughDoor(nextRoom, doorDirection.Value);
             }
             else
@@ -124,4 +128,30 @@ public class Game
             }
         }
     }
+
+
+    public void OnCompleted()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnError(Exception error)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnNext(Player value)
+    {
+        Console.WriteLine("Observer triggered: Player's state has changed.");
+        Console.WriteLine($"New Position: X = {value.Position.GetX()}, Y = {value.Position.GetY()}");
+
+        // Optionally add a counter or timestamp to debug how many times this is called
+        int callCount = 0;
+        callCount++;
+        Console.WriteLine($"OnNext called {callCount} times.");
+        Render(); // Re-render the game state based on updated player position
+    }
+
+
+
 }
