@@ -58,5 +58,16 @@ namespace TempleOfDoom.DataLayer.Models
                     break;
             }
         }
+       public bool GameOverCheck()
+        {
+            if (Lives < 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

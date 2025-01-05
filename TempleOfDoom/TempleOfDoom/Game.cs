@@ -42,7 +42,9 @@ public class Game
         while (isPlaying)
         {
             Console.Clear();
+            isPlaying = !_gameLevel.Player.GameOverCheck();
             Render();
+            if (!isPlaying) RenderGameOver();
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             
             
@@ -50,6 +52,12 @@ public class Game
             _movementHandler.HandleMovement(keyInfo.Key);
             _movementHandler.QuitGame(keyInfo.Key, ref isPlaying);
         }
+    }
+
+    private void RenderGameOver()
+    {
+        Console.Clear();
+        Console.WriteLine("Game over");
     }
 
     public void Render()
