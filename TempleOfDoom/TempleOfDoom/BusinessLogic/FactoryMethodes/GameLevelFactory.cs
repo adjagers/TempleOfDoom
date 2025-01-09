@@ -20,16 +20,11 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
         {
             GameLevelDTO gameLevelDTO = dto as GameLevelDTO
                                         ?? throw new InvalidOperationException("Invalid DTO type. Expected GameLevelDTO.");
-            
+
+            // Create rooms and connections
             CreateRooms(gameLevelDTO.Rooms);
+            AddConnectionsToRooms(gameLevelDTO.Connections);
 
-            // Stap 1: Maak kamers en verbind deze met connecties
-            ConnectRoomsWithConnections(gameLevelDTO.Connections);
-
-            // Stap 2: Maak verbindingen met deuren en bewaar deze in een lijst
-            List<Connection> connectedRoomsWithDoors = CreateRoomConnectionsWithDoors(gameLevelDTO.Connections);
-
-            // Stap 3: Verzamel de kamers in een lijst
             List<Room> rooms = _roomDict.Values.ToList();
             Player player = new Player
             {
@@ -40,17 +35,11 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
                     : throw new InvalidOperationException($"Room with ID {gameLevelDTO.Player.StartRoomId} does not exist.")
             };
 
-            // Retourneer het volledige GameLevel object
             return new GameLevel
             {
-                Connections = connectedRoomsWithDoors,
                 Rooms = rooms,
                 Player = player
             };
-        }
-
-        private void AddConnectionsToRoom()
-        {
         }
         
         private void CreateRooms(List<RoomDTO> roomDtos)
@@ -88,33 +77,10 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
             }
         }
 
-        private List<Connection> CreateRoomConnectionsWithDoors(List<ConnectionDTO> connectionDtos)
+        private void AddConnectionsToRooms(List<ConnectionDTO> connectionDtos)
         {
-            List<Connection> connections = new List<Connection>();
-            DoorFactory doorFactory = new DoorFactory();
-
-            foreach (ConnectionDTO connectionDto in connectionDtos)
-            {
-                List<DoorDTO> doorDtoTypes = connectionDto.Doors;
-                IDoor door = doorFactory.CreateDoor(doorDtoTypes);
-
-                void AddConnection(int? roomId)
-                {
-                    if (roomId.HasValue && roomId.Value > 0 && _roomDict.ContainsKey(roomId.Value))
-                    {
-                        connections.Add(new Connection(_roomDict[roomId.Value], door));
-                    }
-                }
-                
-          
-                
-                AddConnection(connectionDto.NORTH);
-                AddConnection(connectionDto.EAST);
-                AddConnection(connectionDto.SOUTH);
-                AddConnection(connectionDto.WEST);
-            }
-
-            return connections;
+            // Delegate connection creation to RoomFactory
+            _roomFactory.CreateRoomConnectionsWithDoors(_roomDict, connectionDtos);
         }
     }
 }

@@ -31,6 +31,18 @@ namespace TempleOfDoom.DataLayer.Models
             return new Unsubscriber<Player>(_observers, observer);
         }
 
+        public bool GameOverCheck()
+        {
+            if (Lives < 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void MoveTo(Position newPosition)
         {
             // Check if the new position is a wall

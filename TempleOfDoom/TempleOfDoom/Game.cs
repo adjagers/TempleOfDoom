@@ -37,32 +37,33 @@ public class Game : IObserver<Player>
         
         return (GameLevel)gameLevelFactory.Create(gameLevelDto);
     }
-
-
     public void Start()
     {
         bool isPlaying = true;
         Render();
-
-
         while (isPlaying)
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey();
-        
+            isPlaying = !_gameLevel.Player.GameOverCheck();
+            if (!isPlaying) RenderGameOver();
             _movementHandler.HandleMovement(keyInfo.Key);
             _movementHandler.QuitGame(keyInfo.Key, ref isPlaying);
         }
     }
 
+    private void RenderGameOver()
+    {
+        Console.Clear();
+        Console.WriteLine("Game over");
+    }
 
 
     public void Render()
     {
         Console.Clear(); // Clear the console to render again
         Room currentRoom = _gameLevel.Player.CurrentRoom;
-        currentRoom.Connections = _gameLevel.Connections;
-        
-        
+
+        Console.WriteLine($"lives {_gameLevel.Player.Lives}");
         
         _debugPrinter = new DebugPrinter(currentRoom);
         RenderRoomGrid(currentRoom);
@@ -79,19 +80,6 @@ public class Game : IObserver<Player>
     private void RenderRoomGrid(Room currentRoom)
     {
         CharacterFactory characterFactory = new CharacterFactory();
-
-
-        if (currentRoom.Connections.Count > 0)
-            foreach (var connection in currentRoom.Connections)
-            {
-                Console.WriteLine(connection.Door);
-            }
-        else
-        {
-            Console.WriteLine("leeg");
-        }
-        
-
         for (int y = 0; y < currentRoom.Dimensions.getHeight(); y++)
         {
             for (int x = 0; x < currentRoom.Dimensions.getWidth(); x++)
@@ -99,12 +87,10 @@ public class Game : IObserver<Player>
                 // Get the item at the current position (if any)
                 IItem itemAtPosition =
                     currentRoom.Items.FirstOrDefault(item => item.Position?.GetX() == x && item.Position?.GetY() == y);
-
-
                 // Determine which type of object is in the current cell (Player, Item, Door, Wall, or Empty)
                 if (currentRoom.IsDoor(x, y, currentRoom))
                 {
-                    RenderCell(characterFactory.GetDoorCharacterAndColor());
+                    RenderCell(characterFactory.GetDoorCharacterAndColor(currentRoom.Connections));
                 }
                 else if (itemAtPosition != null)
                 {
@@ -150,7 +136,7 @@ public class Game : IObserver<Player>
             {
                 // Get the adjacent room from the door direction
                 Room nextRoom = currentRoom.AdjacentRooms[doorDirection.Value];
-                Console.WriteLine($"Moving player through the {doorDirection.Value} door to the {nextRoom.Type} room.");
+                Console.WriteLine($"Moving player through the {doorDirection.Value} door to the room.");
 
                 // Move the player through the door to the next room
                 _gameLevel.Player.MoveThroughDoor(nextRoom, doorDirection.Value);

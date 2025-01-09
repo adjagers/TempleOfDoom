@@ -9,14 +9,16 @@ public class DoorFactory
     public IDoor CreateDoor(List<DoorDTO> dtoDoors)
     {
         IDoor door = new BasicDoor(initialState: false);
+
         foreach (DoorDTO dtoDoor in dtoDoors)
         {
             switch (dtoDoor.Type.ToLower())
             {
                 case "colored":
-                    Color keyColor =
-                        Enum.Parse<Color>(dtoDoor.Color ?? throw new InvalidDataException("A key needs a color value"),
-                            true);
+                    // Use a default color if no color is provided
+                    Color keyColor = dtoDoor.Color != null
+                        ? Enum.Parse<Color>(dtoDoor.Color, true)
+                        : Color.Blue; // Default color, change as needed
                     door = new ColoredDoorDecorator(door, keyColor);
                     break;
                 case "toggle":

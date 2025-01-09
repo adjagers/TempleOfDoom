@@ -14,7 +14,6 @@ namespace TempleOfDoom.DataLayer.Models
 {
     public class Room : IGameObject
     {
-        public string Type { get; set; }
         public Dimensions Dimensions { get; set; }
 
         public List<Connection> Connections { get; set; } = new List<Connection>();
@@ -64,6 +63,16 @@ namespace TempleOfDoom.DataLayer.Models
             }
             return null;
         }
+
+        public void AddConnection(Connection connection)
+        {
+            if (connection != null)
+            {
+                Connections.Add(connection);
+            }
+        }
+        
+        
         public void ItemCheck(Player player)
         {
             foreach(IItem item in Items)

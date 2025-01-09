@@ -17,6 +17,6 @@ public class Boobytrap : IItem
     public virtual void Interact(Player player)
     {
         Console.WriteLine("Oh no! You hit a Boobytrap!");
-        player.Lives =- _damage;
+        player.Lives -= _damage;
     }
 }

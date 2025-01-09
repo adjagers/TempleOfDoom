@@ -15,11 +15,9 @@ public class DebugPrinter
     public static void PrintGameLevelState(Room currentRoom)
     {
         Console.WriteLine("Game Level State:");
-        Console.WriteLine($"Player is in room: {currentRoom.Type}");
         Console.WriteLine("Adjacent Rooms:");
         foreach (var direction in currentRoom.AdjacentRooms.Keys)
         {
-            Console.WriteLine($"  {direction}: {currentRoom.AdjacentRooms[direction].Type}");
         }
     }
 
