@@ -1,5 +1,4 @@
 ﻿using TempleOfDoom.HelperClasses;
-using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer.Models.Items;
 

@@ -16,6 +16,7 @@ public class SankaraStone : IItem
     public void Interact(Player player)
     {
         player.AddItemInventory(this);
+        Position = null;
         Console.WriteLine("SankaraStone");
     }
 }

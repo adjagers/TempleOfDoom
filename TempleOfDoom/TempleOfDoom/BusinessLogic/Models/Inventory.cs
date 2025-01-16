@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.BusinessLogic.Enums;
+﻿using System.Collections;
+using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.Interfaces;
 
@@ -17,5 +18,10 @@ public class Inventory
     public bool HasKey(Color color)
     {
         return _Items.OfType<Key>().Any(key => key.Color.Equals(color));
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        throw new NotImplementedException();
     }
 }

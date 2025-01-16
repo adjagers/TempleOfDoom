@@ -1,10 +1,5 @@
-﻿using System;
-using System.Text;
-using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.DataLayer.ReaderStrategies;
-using TempleOfDoom.Interfaces;
-using TempleOfDoom.BusinessLogic.FactoryMethodes;
+﻿using System.Text;
+using TempleOfDoom.PresentationLayer;
 
 namespace TempleOfDoom
 {
@@ -12,23 +7,50 @@ namespace TempleOfDoom
     {
         static void Main(string[] args)
         {
+            
+            // TODO:: 1. Pressure plates werkend en de manier van observer toepassen.
+            // TODO:: 2 ZORGEN DAT DE POSITIONERING VAN DE SPELER KLOPT!
+            // TODO:: 3 Kijken en opsommen wat we momenteel nog missen.
             Console.OutputEncoding = Encoding.UTF8;
             Console.CursorVisible = false;
-            // Specify the path to the level data (e.g., JSON file)
-            string levelPath = "/Users/anton/Desktop/TempleOfDoom.nosync/TempleOfDoom/TempleOfDoom/DataLayer/GameLevels/TempleOfDoom.json";
-            // Create an instance of the JsonLevelDataReader
-            ILevelDataReader levelDataReader = new JsonLevelDataReader();
-            // Read the game level data from the file
-            GameLevelDTO gameLevelDTO = levelDataReader.ReadFile(levelPath);
-            if (gameLevelDTO == null)
+
+            string levelsDirectory = Path.Combine(AppContext.BaseDirectory, "../../../DataLayer/GameLevels");
+
+            // Try to get the level files
+            string[] levelFiles = DialogueSystem.GetLevelFiles(levelsDirectory);
+
+            if (levelFiles == null)
             {
-                Console.WriteLine("Failed to load the game level.");
+                // If directory doesn't exist or no level files found, exit early
                 return;
             }
-            // Create an instance of Game using the loaded level
-            Game game = new Game(levelPath);
-            // Render the game for the current room
-            game.Render();
+
+            // Display available levels
+            DialogueSystem.PrintAvailableLevels(levelFiles);
+
+            // Get the user's level selection
+            int selectedLevel = DialogueSystem.GetUserLevelSelection(levelFiles.Length);
+
+            if (selectedLevel != -1)
+            {
+                string levelPath = levelFiles[selectedLevel - 1];
+
+                try
+                {
+                    // Start the game with the selected level
+                    Game game = new Game(levelPath);
+                    game.Start();
+                }
+                catch (Exception ex)
+                {
+                    // Catch any exception that occurs during game initialization or start
+                    DialogueSystem.PrintError($"An error occurred while starting the game: {ex.Message}");
+                }
+            }
+            else
+            {
+                DialogueSystem.PrintInvalidSelection();
+            }
         }
     }
 }
