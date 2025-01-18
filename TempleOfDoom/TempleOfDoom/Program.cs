@@ -7,15 +7,10 @@ namespace TempleOfDoom
     {
         static void Main(string[] args)
         {
-            
-            // TODO:: 1. Pressure plates werkend en de manier van observer toepassen.
-            // TODO:: 2 ZORGEN DAT DE POSITIONERING VAN DE SPELER KLOPT!
-            // TODO:: 3 Kijken en opsommen wat we momenteel nog missen.
             Console.OutputEncoding = Encoding.UTF8;
             Console.CursorVisible = false;
 
             string levelsDirectory = Path.Combine(AppContext.BaseDirectory, "../../../DataLayer/GameLevels");
-
             // Try to get the level files
             string[] levelFiles = DialogueSystem.GetLevelFiles(levelsDirectory);
 
@@ -24,13 +19,10 @@ namespace TempleOfDoom
                 // If directory doesn't exist or no level files found, exit early
                 return;
             }
-
             // Display available levels
             DialogueSystem.PrintAvailableLevels(levelFiles);
-
             // Get the user's level selection
             int selectedLevel = DialogueSystem.GetUserLevelSelection(levelFiles.Length);
-
             if (selectedLevel != -1)
             {
                 string levelPath = levelFiles[selectedLevel - 1];

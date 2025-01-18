@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CODE_TempleOfDoom_DownloadableContent;
 using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.BusinessLogic.FactoryMethodes;
 using TempleOfDoom.BusinessLogic.Models;
@@ -35,11 +36,9 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
                     : throw new InvalidOperationException($"Room with ID {gameLevelDTO.Player.StartRoomId} does not exist.")
             };
 
-            return new GameLevel
-            {
-                Rooms = rooms,
-                Player = player
-            };
+
+            GameLevel gameLevel = new GameLevel(rooms, player);
+            return gameLevel;
         }
         
         private void CreateRooms(List<RoomDTO> roomDtos)
@@ -49,38 +48,13 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
                 _roomDict[roomDto.Id] = (Room)_roomFactory.Create(roomDto);
             }
         }
-        private void ConnectRoomsWithConnections(List<ConnectionDTO> connectionDtos)
-        {
-            // Populeer het dictionary om Room IDs te koppelen aan Room objecten
 
-            // Verbind kamers op basis van de connecties
-            foreach (ConnectionDTO connectionDto in connectionDtos)
-            {
-                // If North en Zuid hebben een Id dan Connect de 2 kamers met elkaar
-                if (connectionDto.NORTH > 0 && connectionDto.SOUTH > 0)
-                {
-                    Room northRoom = _roomDict[connectionDto.NORTH];
-                    Room southRoom = _roomDict[connectionDto.SOUTH];
-
-                    northRoom.AdjacentRooms[Direction.SOUTH] = southRoom;
-                    southRoom.AdjacentRooms[Direction.NORTH] = northRoom;
-                }
-
-                if (connectionDto.WEST > 0 && connectionDto.EAST > 0)
-                {
-                    Room westRoom = _roomDict[connectionDto.WEST];
-                    Room eastRoom = _roomDict[connectionDto.EAST];
-
-                    westRoom.AdjacentRooms[Direction.EAST] = eastRoom;
-                    eastRoom.AdjacentRooms[Direction.WEST] = westRoom;
-                }
-            }
-        }
+        
 
         private void AddConnectionsToRooms(List<ConnectionDTO> connectionDtos)
         {
             // Delegate connection creation to RoomFactory
-            _roomFactory.CreateRoomConnectionsWithDoors(_roomDict, connectionDtos);
+            _roomFactory.CreateRoomConnectionsWithTransitions(_roomDict, connectionDtos);
         }
     }
 }

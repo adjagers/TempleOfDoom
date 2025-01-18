@@ -15,17 +15,20 @@ namespace TempleOfDoom.DataLayer.Models
     public class Room : IGameObject
     {
         public Dimensions Dimensions { get; set; }
-
         public List<Connection> Connections { get; set; } = new List<Connection>();
-
         public List<IItem> Items { get; set; }
-
         public Dictionary<Direction, Room> AdjacentRooms { get; set; } = new();
+        public List<IAutoMovableGameObject> Enemies { get; set; } = new List<IAutoMovableGameObject>();
         public int CountSankraStonesInRoom()
         {
             return Items.OfType<SankaraStone>().Count();
         }
-        
+
+        public bool HasMovableGameObject(int x, int y, out IMovableGameObject gameObject)
+        {
+            gameObject = Enemies.FirstOrDefault(obj => obj.Position.GetX() == x && obj.Position.GetY() == y);
+            return gameObject != null;
+        }
         public bool IsDoor(int x, int y, Room currentRoom)
         {
             return (y == 0 && x == currentRoom.Dimensions.getWidth() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.NORTH)) ||
@@ -34,21 +37,20 @@ namespace TempleOfDoom.DataLayer.Models
                    (x == currentRoom.Dimensions.getWidth() - 1 && y == currentRoom.Dimensions.getHeight() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.EAST));
         }
         
+        
+        
         public bool IsPlayerOnDoor(Position playerPosition)
         {
             int x = playerPosition.GetX();
             int y = playerPosition.GetY();
             return IsDoor(x, y, this); 
         }
-
         public bool IsWall(int x, int y, Room currentRoom)
         {
             // Check if the position is at any of the room boundaries (walls)
             return x == 0 || x == currentRoom.Dimensions.getWidth() - 1 ||
                    y == 0 || y == currentRoom.Dimensions.getHeight() - 1;
         }
-
-
         public Direction? GetDoorDirection(Position playerPosition)
         {
             int x = playerPosition.GetX();
@@ -63,7 +65,6 @@ namespace TempleOfDoom.DataLayer.Models
             }
             return null;
         }
-
         public void AddConnection(Connection connection)
         {
             if (connection != null)
@@ -71,8 +72,6 @@ namespace TempleOfDoom.DataLayer.Models
                 Connections.Add(connection);
             }
         }
-        
-        
         public void ItemCheck(Player player)
         {
             foreach(IItem item in Items)

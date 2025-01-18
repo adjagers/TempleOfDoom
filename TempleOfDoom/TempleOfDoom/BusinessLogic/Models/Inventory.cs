@@ -15,13 +15,13 @@ public class Inventory
         _Items.Add(item);
     }
 
+    public int GetSankaraStonesCount()
+    {
+        return _Items.Count(i => i is SankaraStone);
+    }
+
     public bool HasKey(Color color)
     {
         return _Items.OfType<Key>().Any(key => key.Color.Equals(color));
-    }
-
-    public IEnumerator GetEnumerator()
-    {
-        throw new NotImplementedException();
     }
 }

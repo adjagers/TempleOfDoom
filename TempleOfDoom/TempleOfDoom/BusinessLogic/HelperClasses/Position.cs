@@ -8,8 +8,8 @@ namespace TempleOfDoom.HelperClasses
 
         public Position(int x, int y)
         {
-            this._x = x;
-            this._y = y;
+            _x = x;
+            _y = y;
         }
 
         public int GetX()
@@ -22,10 +22,7 @@ namespace TempleOfDoom.HelperClasses
             return _y;
         }
 
-        public int[] GetPosition()
-        {
-            return new int[] { _x, _y };
-
-        }
+        public bool IsAdjacentTo(Position other) =>
+            Math.Abs(GetX() - other.GetX()) <= 1 && Math.Abs(GetY() - other.GetY()) <= 1;
     }
 }

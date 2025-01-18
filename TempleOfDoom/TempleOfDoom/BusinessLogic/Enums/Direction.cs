@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TempleOfDoom.HelperClasses;
 
 namespace TempleOfDoom.BusinessLogic.Enums
 {
@@ -13,32 +14,9 @@ namespace TempleOfDoom.BusinessLogic.Enums
         NORTH,
         SOUTH,
         EAST,
-        WEST  
-        
-        
-        
+        WEST,
+        UPPER,
+        LOWER
     }
-    public class DirectionHelper
-    {
-        public Direction GetReverseDirection(Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.NORTH:
-                    return Direction.SOUTH;
-                case Direction.SOUTH:
-                    return Direction.NORTH;
-                case Direction.EAST:
-                    return Direction.WEST;
-                case Direction.WEST:
-                    return Direction.EAST;
-                default:
-                    throw new ArgumentException("Invalid direction");
-            }
-        }
-    }
-
     
-    
-
 }
