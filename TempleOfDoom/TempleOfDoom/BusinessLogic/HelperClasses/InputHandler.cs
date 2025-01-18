@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.HelperClasses;
+﻿using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.HelperClasses;
 
 namespace TempleOfDoom.BusinessLogic.HelperClasses
 {
@@ -13,43 +14,19 @@ namespace TempleOfDoom.BusinessLogic.HelperClasses
 
         public void HandleMovement(ConsoleKey key)
         {
-            int currentX = gameLevel.Player.Position.GetX();
-            int currentY = gameLevel.Player.Position.GetY();
+            // Map key to direction
+            Direction? direction = DirectionExtension.ToDirectionOrNull(key);
 
-            Position newPosition = null;
-
-            switch (key)
+            if (direction.HasValue)
             {
-                case ConsoleKey.UpArrow:
-                    if (currentY > 0)
-                        newPosition = new Position(currentX, currentY - 1);
-                    break;
-
-                case ConsoleKey.DownArrow:
-                    if (currentY < gameLevel.Player.CurrentRoom.Dimensions.getHeight() - 1)
-                        newPosition = new Position(currentX, currentY + 1);
-                    break;
-
-                case ConsoleKey.LeftArrow:
-                    if (currentX > 0)
-                        newPosition = new Position(currentX - 1, currentY);
-                    break;
-
-                case ConsoleKey.RightArrow:
-                    if (currentX < gameLevel.Player.CurrentRoom.Dimensions.getWidth() - 1)
-                        newPosition = new Position(currentX + 1, currentY);
-                    break;
-
-                default:
-                    break;
-            }
-
-            // If the new position is valid, move the player
-            if (newPosition != null)
-            {
-                gameLevel.Player.MoveTo(newPosition);
+                // Let the player decide if it can move
+                gameLevel.Player.Move(direction.Value);
             }
         }
+
+
+
+
 
         public void QuitGame(ConsoleKey keyInfoKey, ref bool isPlaying)
         {

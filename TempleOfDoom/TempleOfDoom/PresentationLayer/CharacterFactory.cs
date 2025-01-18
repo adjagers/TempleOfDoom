@@ -1,6 +1,7 @@
 using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.BusinessLogic.Models.Doors;
+using TempleOfDoom.BusinessLogic.Models.Enemy;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.DataLayer.Models.Items;
 
@@ -17,7 +18,9 @@ public class CharacterFactory
         { typeof(Boobytrap), ('O', ConsoleColor.White) },
         { typeof(DisappearingBoobytrap), ('D', ConsoleColor.Cyan) },
         { typeof(ToggleDoorDecorator), ('T', ConsoleColor.Magenta) },
-        { typeof(Player), ('X', ConsoleColor.White) }
+        { typeof(EnemyAdapter), ('Z', ConsoleColor.Red) },
+        { typeof(Player), ('X', ConsoleColor.White) },
+        { typeof(Ladder), ('!', ConsoleColor.Blue) }
     };
 
     public (char character, ConsoleColor color) GetCharacterWithColor(object obj)
@@ -30,12 +33,30 @@ public class CharacterFactory
 
         return (' ', DefaultDoorColor); // Default for unknown types
     }
-
-    // Example method for wall
+    
     public (char character, ConsoleColor color) GetWallCharacterAndColor()
     {
         return ('#', ConsoleColor.Yellow);
     }
+
+    // Add a mapping for MovableGameObjects
+    private readonly Dictionary<Type, (char character, ConsoleColor color)> _enemyTypeMap = new()
+    {
+        { typeof(EnemyAdapter), ('E', ConsoleColor.Red) }
+    };
+
+    public (char character, ConsoleColor color) GetMovableGameObjectCharacterWithColor(IMovableGameObject obj)
+    {
+        if (obj == null)
+            return (' ', ConsoleColor.Gray); // Default for null objects
+
+        if (_enemyTypeMap.TryGetValue(obj.GetType(), out var result))
+            return result;
+
+        return ('?', ConsoleColor.Gray); // Fallback for unknown MovableGameObject types
+    }
+
+
 
     public static ConsoleColor MapColorToConsoleColor(Color color)
     {
@@ -56,14 +77,14 @@ public class CharacterFactory
 
         foreach (var connection in connections)
         {
-            var door = connection.Door; // The actual door for this connection
+            var transition = connection.Transition; // The actual door for this connection
 
             // Traverse through the decorator chain to get the final appearance of the door
-            while (door is DoorDecorator doorDecorator)
+            while (transition is DoorDecorator doorDecorator)
             {
                 // Apply logic to determine which door properties to extract
                 // Get the base door from the decorator chain
-                door = doorDecorator.DecoratedDoor;
+                transition = doorDecorator.DecoratedDoor;
 
                 // Check the type of the decorator and apply corresponding behavior
                 if (doorDecorator is ColoredDoorDecorator coloredDoor)

@@ -14,5 +14,6 @@ namespace TempleOfDoom.DataLayer.DTO
         public int Width { get; set; }
         public int Height { get; set; }
         public List<ItemDTO> Items { get; set; } = new();
+        public List<EnemyDTO> Enemies { get; set; }
     }
 }

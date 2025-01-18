@@ -9,9 +9,9 @@ using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.BusinessLogic.Models
 {
-    public class Connection(Room connectedRoom, IDoor door) : IGameObject
+    public class Connection(Room connectedRoom, ITransition transition)
     {
-        public IDoor Door { get; set; } = door;
+        public ITransition Transition { get; set; } = transition;
         public Room ConnectedRoom { get; set; } = connectedRoom;
     }
 }

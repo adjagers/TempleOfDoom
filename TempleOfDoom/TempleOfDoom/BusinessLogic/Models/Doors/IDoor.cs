@@ -1,8 +1,9 @@
-﻿using TempleOfDoom.DataLayer.Models;
+﻿using TempleOfDoom.BusinessLogic.Models;
+using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 
 
-public interface IDoor : IGameObject
+public interface IDoor : ITransition
 {
     void OpenDoor();
     void CloseDoor();
