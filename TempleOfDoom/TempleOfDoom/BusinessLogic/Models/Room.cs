@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic.HelperClasses;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models.Items;
@@ -15,6 +16,10 @@ namespace TempleOfDoom.DataLayer.Models
     public class Room : IGameObject
     {
         public Dimensions Dimensions { get; set; }
+        public int LeftX() => 0;
+        public int RightX() => Dimensions.getWidth() - 1;
+        public int TopY() => Dimensions.getHeight() - 1;
+        public int BottomY() => 0;
         public List<Connection> Connections { get; set; } = new List<Connection>();
         public List<IItem> Items { get; set; }
         public Dictionary<Direction, Room> AdjacentRooms { get; set; } = new();
@@ -36,7 +41,13 @@ namespace TempleOfDoom.DataLayer.Models
                    (x == 0 && y == currentRoom.Dimensions.getHeight() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.WEST)) ||
                    (x == currentRoom.Dimensions.getWidth() - 1 && y == currentRoom.Dimensions.getHeight() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.EAST));
         }
-        
+
+        public Connection? GetConnectionByDirection(Direction direction)
+        {
+            return Connections.FirstOrDefault(conn =>
+                AdjacentRooms.TryGetValue(direction, out var adjacentRoom) &&
+                conn.ConnectedRoom == adjacentRoom);
+        }
         
         
         public bool IsPlayerOnDoor(Position playerPosition)

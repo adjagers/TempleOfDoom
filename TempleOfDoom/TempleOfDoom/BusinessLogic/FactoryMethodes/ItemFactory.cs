@@ -5,6 +5,7 @@ using System;
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic.HelperClasses;
 
 namespace TempleOfDoom.BusinessLogic.FactoryMethodes
 {

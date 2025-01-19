@@ -1,5 +1,6 @@
 ﻿using System;
 using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic.HelperClasses;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models.Items;
