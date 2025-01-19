@@ -9,18 +9,9 @@ public class DebugPrinter
 
     public DebugPrinter(Room currentRoom)
     {
-            PrintGameLevelState(currentRoom);
             PrintDoorPositions(currentRoom);
     }
     
-    public static void PrintGameLevelState(Room currentRoom)
-    {
-        Console.WriteLine("Game Level State:");
-        Console.WriteLine("Adjacent Rooms:");
-        foreach (var direction in currentRoom.AdjacentRooms.Keys)
-        {
-        }
-    }
 
     public static void PrintDoorPositions(Room currentRoom)
     {

@@ -29,8 +29,6 @@
                 Console.WriteLine("The door is already open.");
             }
         }
-
-        // Methode om de deur te sluiten
         public virtual void CloseDoor()
         {
             if (_isOpen)
@@ -43,12 +41,10 @@
                 Console.WriteLine("The door is already closed.");
             }
         }
-
         public virtual void SetInitialState(bool isOpen)
         {
             _isOpen = isOpen;
         }
-
         public void Interact(Player player)
         {
             return;

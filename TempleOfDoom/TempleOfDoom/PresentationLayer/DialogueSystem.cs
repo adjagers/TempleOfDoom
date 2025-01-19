@@ -41,7 +41,7 @@ namespace TempleOfDoom.PresentationLayer;
                 return selectedLevel;
             }
 
-            return -1;  // Return -1 for invalid selection
+            return -1;
         }
 
         public static void PrintDirectoryDoesNotExist()

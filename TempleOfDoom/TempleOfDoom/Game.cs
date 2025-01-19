@@ -13,12 +13,9 @@ public class Game : IObserver<Player>
 {
     private GameLevel _gameLevel;
     private InputHandler _movementHandler;
-    private DebugPrinter _debugPrinter;
 
 
     private readonly Frame _frame = new();
-
-
     public Game(string fileName)
     {
         _gameLevel = LoadGameLevel(fileName);
@@ -30,10 +27,7 @@ public class Game : IObserver<Player>
     private GameLevel LoadGameLevel(string fileName)
     {
         LevelReaderFactory levelReader = new LevelReaderFactory(fileName);
-        
-        // TODO:: levelReader.Gamelevel little bit janky maybe later on if we have time....
         GameLevelDTO gameLevelDto = levelReader.GameLevelDTO;
-        
         GameLevelFactory gameLevelFactory = new GameLevelFactory();
         
         // TODO:: Look for a different approach so we do not use the cast everytime...
@@ -82,12 +76,6 @@ public class Game : IObserver<Player>
             {
                 foreach (var enemy in _gameLevel.Player.CurrentRoom.Enemies)
                 {
-                    if (enemy == null)
-                    {
-                        Console.WriteLine("Error: Enemy is null in the current room.");
-                        continue;
-                    }
-
                     enemy.AutomaticallyMove();
                     CheckPlayerEnemyCollision(); // Update enemy movement
                 }
@@ -147,7 +135,8 @@ public class Game : IObserver<Player>
         {
             Console.WriteLine("Player has collected enough Sankara Stones!");
         }
-        _debugPrinter = new DebugPrinter(currentRoom);
+
+        DebugPrinter debugPrinter = new DebugPrinter(currentRoom);
         _frame.Clear();
         BuildRooms(_gameLevel.Player);
         BuildPlayer(_gameLevel.Player);
@@ -240,8 +229,6 @@ public class Game : IObserver<Player>
             }
         }
     }
-
-
     private void BuildItems(Room currentRoom)
     {
         foreach (IItem item in currentRoom.Items)
@@ -253,11 +240,6 @@ public class Game : IObserver<Player>
     {
         _frame.SetPixel(player.Position, CharacterFactory.GetMovableCharacter(player));
     }
-
-   
-
-
-// Method to check if the position is a wall (implement your wall check logic here)
     private void HandleDoorTransition(Room currentRoom)
     {
         // Handle door transitions
@@ -290,14 +272,10 @@ public class Game : IObserver<Player>
                     Direction ladderDirection = ladderY < currentRoom.Dimensions.getHeight() / 2
                         ? Direction.UPPER
                         : Direction.LOWER;
-
-                    Console.WriteLine($"Moving player via ladder to the next room ({ladderDirection}).");
                     _gameLevel.Player.MoveThroughDoor(nextRoom, ladderDirection);
-                    return; // Exit after ladder transition
+                    return;
                 }
             }
-
-            Console.WriteLine("Player is not on any door or ladder.");
         }
     }
 
@@ -314,16 +292,6 @@ public class Game : IObserver<Player>
 
     public void OnNext(Player value)
     {
-        Console.WriteLine("Observer triggered: Player's state has changed.");
-        Console.WriteLine($"New Position: X = {value.Position.GetX()}, Y = {value.Position.GetY()}");
-
-        // Optionally add a counter or timestamp to debug how many times this is called
-        int callCount = 0;
-        callCount++;
-        Console.WriteLine($"OnNext called {callCount} times.");
-        Render(); // Re-render the game state based on updated player position
+        Render();
     }
-
-
-
 }

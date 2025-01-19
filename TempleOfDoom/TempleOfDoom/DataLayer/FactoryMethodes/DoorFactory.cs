@@ -1,7 +1,6 @@
 ﻿using TempleOfDoom.BusinessLogic;
 using TempleOfDoom.BusinessLogic.Models.Doors;
 using TempleOfDoom.DataLayer.DTO;
-
 namespace TempleOfDoom.DataLayer.FactoryMethodes;
 
 public class DoorFactory

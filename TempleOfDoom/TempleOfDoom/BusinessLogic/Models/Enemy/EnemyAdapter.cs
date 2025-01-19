@@ -10,14 +10,10 @@ namespace TempleOfDoom.BusinessLogic.Models.Enemy
         private int MinY { get; }
         private int MaxY { get; }
         public Position Position => new Position(_baseEnemy.CurrentXLocation, _baseEnemy.CurrentYLocation);
-
         public bool IsDead { get; }
-        
         public int Lives => _baseEnemy.NumberOfLives;
         public Position StartPosition;
         private Direction LastDirection { get; set; }
-
-        // Constructor to initialize the EnemyAdapter with boundary values
         public EnemyAdapter(string type, int x, int y, int minX, int maxX, int minY, int maxY)
         {
             MovableDirection movableDirection = Enum.Parse<MovableDirection>(type, true);
@@ -27,13 +23,11 @@ namespace TempleOfDoom.BusinessLogic.Models.Enemy
                 MovableDirection.Vertical => new VerticallyMovingEnemy(3, x, y, minY, maxY),
                 _ => throw new ArgumentException("Unknown type of enemy")
             };
-            
             MinX = minX;
             MaxX = maxX;
             MinY = minY;
             MaxY = maxY;
             StartPosition = new Position(x, y);
-
             LastDirection = GetLastDirection(movableDirection);
         }
         public void Damage(int amount)
@@ -59,12 +53,10 @@ namespace TempleOfDoom.BusinessLogic.Models.Enemy
             _baseEnemy.CurrentYLocation += directionValues.GetY();
             LastDirection = direction;
         }
-
         public Direction GetLastDirection(MovableDirection movableDirection)
         {
             return movableDirection == MovableDirection.Horizontal ? Direction.EAST : Direction.SOUTH;
         }
-
         // Automatically move the enemy, checking boundaries and adjusting direction if necessary
         public void AutomaticallyMove()
         {

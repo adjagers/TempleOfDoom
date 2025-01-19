@@ -1,14 +1,8 @@
 ﻿namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
-    public class DoorDecorator : IDoor
+    public class DoorDecorator(IDoor door) : IDoor
     {
-        protected readonly IDoor _door;
-
-        // Constructor
-        public DoorDecorator(IDoor door)
-        {
-            _door = door ?? throw new ArgumentNullException(nameof(door));
-        }
+        protected readonly IDoor _door = door ?? throw new ArgumentNullException(nameof(door));
 
         // DecoratedDoor property to access the wrapped door
         public IDoor DecoratedDoor => _door;

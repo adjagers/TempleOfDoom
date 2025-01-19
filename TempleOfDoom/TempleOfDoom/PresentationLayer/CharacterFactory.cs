@@ -26,20 +26,19 @@ public class CharacterFactory
 
     public static char GetTransitionCharacter(ITransition transition)
     {
-        // Traverse the decorator chain if the transition is a DoorDecorator
         while (transition is DoorDecorator doorDecorator)
         {
             if (doorDecorator is ColoredDoorDecorator)
             {
-                // Apply behavior for ColoredDoorDecorator (if needed)
+                
             }
             else if (doorDecorator is ToggleDoorDecorator)
             {
-                return '\u2534'; // Example character for ToggleDoorDecorator
+                return '\u2534';
             }
             else if (doorDecorator is NumberOfStonesRoomDoorDecorator)
             {
-                return '='; // Example character for NumberOfStonesRoomDoorDecorator
+                return '=';
             }
 
             // Move to the next level in the decorator chain
@@ -51,7 +50,7 @@ public class CharacterFactory
         {
             Ladder _ => 'L',
             BasicDoor _ => 'D',
-            _ => '?' // Default character for unknown transitions
+            _ => '?'
         };
     }
 
