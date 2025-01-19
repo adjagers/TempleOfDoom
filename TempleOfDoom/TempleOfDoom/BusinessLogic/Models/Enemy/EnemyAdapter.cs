@@ -1,8 +1,5 @@
 using CODE_TempleOfDoom_DownloadableContent;
-using TempleOfDoom.BusinessLogic.Enums;
-using TempleOfDoom.BusinessLogic.HelperClasses;
 using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.HelperClasses;
 
 namespace TempleOfDoom.BusinessLogic.Models.Enemy
 {

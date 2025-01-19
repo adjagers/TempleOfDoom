@@ -1,9 +1,7 @@
-﻿using TempleOfDoom.BusinessLogic.Enums;
-using TempleOfDoom.BusinessLogic.Models;
+﻿using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.BusinessLogic.Models.Enemy;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.BusinessLogic.FactoryMethodes

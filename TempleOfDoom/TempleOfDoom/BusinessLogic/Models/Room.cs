@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TempleOfDoom.BusinessLogic.Enums;
-using TempleOfDoom.BusinessLogic.HelperClasses;
+using TempleOfDoom.BusinessLogic;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models.Items;
-using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer.Models

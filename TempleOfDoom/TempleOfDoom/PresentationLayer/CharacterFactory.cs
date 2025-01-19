@@ -1,4 +1,4 @@
-using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.BusinessLogic.Models.Doors;
 using TempleOfDoom.BusinessLogic.Models.Enemy;

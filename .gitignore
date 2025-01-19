@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+TempleOfDoom/.idea/.idea.TempleOfDoom/.idea/workspace.xml
+TempleOfDoom/.idea/.idea.TempleOfDoom/.idea/projectSettingsUpdater.xml
+TempleOfDoom/.idea/.idea.TempleOfDoom/.idea/indexLayout.xml

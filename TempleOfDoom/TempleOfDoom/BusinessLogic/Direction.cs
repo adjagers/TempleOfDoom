@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TempleOfDoom.HelperClasses;
 
-namespace TempleOfDoom.BusinessLogic.Enums
+namespace TempleOfDoom.BusinessLogic
 {
-    
-    
+
+
     public enum Direction
     {
         NORTH,
@@ -18,5 +17,5 @@ namespace TempleOfDoom.BusinessLogic.Enums
         UPPER,
         LOWER
     }
-    
+
 }

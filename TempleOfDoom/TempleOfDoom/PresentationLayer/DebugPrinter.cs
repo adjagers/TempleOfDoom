@@ -1,4 +1,4 @@
-using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic;
 using TempleOfDoom.DataLayer.Models;
 
 namespace TempleOfDoom.PresentationLayer;

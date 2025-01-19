@@ -1,13 +1,11 @@
 using TempleOfDoom;
-using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic;
 using TempleOfDoom.BusinessLogic.FactoryMethodes;
-using TempleOfDoom.BusinessLogic.HelperClasses;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.BusinessLogic.Models.Enemy;
 using TempleOfDoom.DataLayer;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom.PresentationLayer;
 

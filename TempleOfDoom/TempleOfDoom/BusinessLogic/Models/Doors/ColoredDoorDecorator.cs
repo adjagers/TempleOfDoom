@@ -1,5 +1,4 @@
-﻿using TempleOfDoom.BusinessLogic.Enums;
-using TempleOfDoom.DataLayer.Models;
+﻿using TempleOfDoom.DataLayer.Models;
 
 namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
