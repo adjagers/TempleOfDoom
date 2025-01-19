@@ -1,4 +1,4 @@
-﻿namespace TempleOfDoom.BusinessLogic.HelperClasses
+﻿namespace TempleOfDoom.BusinessLogic
 {
     public class Position
     {

@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic;
 using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.Interfaces;
 

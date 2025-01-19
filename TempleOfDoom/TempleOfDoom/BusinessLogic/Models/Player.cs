@@ -1,7 +1,4 @@
-﻿using TempleOfDoom.BusinessLogic.Enums;
-using TempleOfDoom.BusinessLogic.HelperClasses;
-using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.HelperClasses;
+﻿using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.BusinessLogic.Models

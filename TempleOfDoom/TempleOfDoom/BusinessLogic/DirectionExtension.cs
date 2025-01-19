@@ -1,7 +1,4 @@
-using TempleOfDoom.BusinessLogic.HelperClasses;
-using TempleOfDoom.HelperClasses;
-
-namespace TempleOfDoom.BusinessLogic.Enums;
+namespace TempleOfDoom.BusinessLogic;
 
 public static class DirectionExtension
 {

@@ -1,7 +1,6 @@
-﻿using TempleOfDoom.BusinessLogic.Enums;
-using TempleOfDoom.HelperClasses;
+﻿
 
-namespace TempleOfDoom.BusinessLogic.HelperClasses
+namespace TempleOfDoom.BusinessLogic
 {
     public class InputHandler
     {

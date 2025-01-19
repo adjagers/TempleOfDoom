@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using CODE_TempleOfDoom_DownloadableContent;
-using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic;
 using TempleOfDoom.BusinessLogic.FactoryMethodes;
-using TempleOfDoom.BusinessLogic.HelperClasses;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.BusinessLogic.FactoryMethodes

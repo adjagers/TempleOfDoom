@@ -1,5 +1,4 @@
-using TempleOfDoom.BusinessLogic.HelperClasses;
-using TempleOfDoom.HelperClasses;
+using TempleOfDoom.BusinessLogic;
 
 namespace TempleOfDoom;
 

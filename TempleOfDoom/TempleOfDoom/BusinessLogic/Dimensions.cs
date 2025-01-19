@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TempleOfDoom.HelperClasses
+namespace TempleOfDoom.BusinessLogic
 {
     public class Dimensions
     {
