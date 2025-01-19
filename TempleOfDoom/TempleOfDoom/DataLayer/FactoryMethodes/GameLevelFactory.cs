@@ -25,14 +25,17 @@ namespace TempleOfDoom.DataLayer.FactoryMethodes
             AddConnectionsToRooms(gameLevelDTO.Connections);
 
             List<Room> rooms = _roomDict.Values.ToList();
-            Player player = new Player
-            {
-                Lives = gameLevelDTO.Player.Lives,
-                Position = new Position(gameLevelDTO.Player.StartX, gameLevelDTO.Player.StartY),
-                CurrentRoom = _roomDict.ContainsKey(gameLevelDTO.Player.StartRoomId)
-                    ? _roomDict[gameLevelDTO.Player.StartRoomId]
-                    : throw new InvalidOperationException($"Room with ID {gameLevelDTO.Player.StartRoomId} does not exist.")
-            };
+
+            Room startRoom = _roomDict.ContainsKey(gameLevelDTO.Player.StartRoomId)
+                ? _roomDict[gameLevelDTO.Player.StartRoomId]
+                : throw new InvalidOperationException(
+                    $"Room with ID {gameLevelDTO.Player.StartRoomId} does not exist.");
+
+            Player player = new Player(
+                gameLevelDTO.Player.Lives,
+                new Position(gameLevelDTO.Player.StartX, gameLevelDTO.Player.StartY),
+                startRoom
+            );
 
 
             GameLevel gameLevel = new GameLevel(rooms, player);

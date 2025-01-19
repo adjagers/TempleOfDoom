@@ -7,10 +7,10 @@ using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer.DTO
 {
-   public class DoorDTO : IDTO
-    {
-        public string Type { get; set; }
-        public string Color { get; set; }
-        public int No_of_stones { get; set; }
-    }
+    public record DoorDTO(
+        string Type,
+        string Color,
+        int NoOfStones
+    ) : IDTO;
 }
+

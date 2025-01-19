@@ -1,12 +1,12 @@
-namespace TempleOfDoom.DataLayer.DTO;
-
-public class EnemyDTO
+namespace TempleOfDoom.DataLayer.DTO
 {
-    public string Type { get; set; }
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int MinX { get; set; }
-    public int MinY { get; set; }
-    public int MaxX { get; set; }
-    public int MaxY { get; set; }
+    public record EnemyDTO(
+        string Type,
+        int X,
+        int Y,
+        int MinX,
+        int MinY,
+        int MaxX,
+        int MaxY
+    );
 }

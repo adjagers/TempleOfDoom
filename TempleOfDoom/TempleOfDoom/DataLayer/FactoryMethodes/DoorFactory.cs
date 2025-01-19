@@ -28,7 +28,7 @@ public class DoorFactory
                     door = new OpenOnOddDecorator(door);
                     break;
                 case "open on stones in room":
-                    door = new NumberOfStonesRoomDoorDecorator(door, dtoDoor.No_of_stones);
+                    door = new NumberOfStonesRoomDoorDecorator(door, dtoDoor.NoOfStones);
                     break;
                 default:
                     Console.WriteLine("Warning: Unrecognized door type.");

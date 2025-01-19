@@ -9,13 +9,12 @@ public class Ladder : ITransition
     public int UpperY { get; }
     public int LowerX { get; }
     public int LowerY { get; }
-
-// Constructor of Ladder that takes a full DTO
+    
     public Ladder(LadderDTO ladderDto)
     {
         UpperX = ladderDto.UpperX;
         UpperY = ladderDto.UpperY;
-        LowerX = ladderDto.LowerX;
+        LowerX = ladderDto.LowerY;
         LowerY = ladderDto.LowerY;
     }
 }

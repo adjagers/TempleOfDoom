@@ -1,11 +1,12 @@
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DataLayer.DTO;
-
-public class LadderDTO : IDTO
+namespace TempleOfDoom.DataLayer.DTO
 {
-    public int UpperX { get; set; }
-    public int UpperY { get; set; }
-    public int LowerX { get; set; }
-    public int LowerY { get; set; }
+    public record LadderDTO(
+        int UpperX,
+        int UpperY,
+        int LowerX,
+        int LowerY
+    ) : IDTO; 
 }
+

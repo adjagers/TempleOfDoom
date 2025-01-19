@@ -3,28 +3,22 @@ using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.BusinessLogic.Models
 {
-    public class Player : IMovableGameObject, IObservable<Player>
+    public class Player(int lives, Position position, Room currentRoom) : IMovableGameObject, IObservable<Player>
     {
         private List<IObserver<Player>> _observers = new();
 
-        public Room CurrentRoom { get; set; }
+        public Room CurrentRoom { get; set; } = currentRoom ?? throw new ArgumentNullException(nameof(currentRoom));
         public bool PerformedAction { get; private set; }
         public int SankaraStones => Inventory.GetSankaraStonesCount();
-        public Position Position { get; set; }
-        public int Lives { get; set; }
+        public Position Position { get; set; } = position;
+        public int Lives { get; set; } = lives;
         public bool IsDead => Lives <= 0;
         public bool IsDone => IsDead;
 
         private const int PlayerDamage = 1;
 
 
-        public Player()
-        {
-            this.Inventory = new Inventory();
-        }
-
-
-        public Inventory Inventory { get; }
+        public Inventory Inventory { get; } = new();
 
         public void Damage(int amount)
         {

@@ -8,12 +8,9 @@ using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer.DTO
 {
-    public class PlayerDTO : IDTO
-    {
-        public int StartRoomId { get; set; }
-        public int StartX { get; set; }
-        public int StartY { get; set; }
-        public int Lives { get; set; }
-    }
-
+    public record PlayerDTO(
+        int StartRoomId,
+        int StartX,
+        int StartY,
+        int Lives) : IDTO;
 }

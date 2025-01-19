@@ -7,13 +7,12 @@ using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer.DTO
 {
-    public class RoomDTO : IDTO
-    {
-        public int Id { get; set; }
-        public string Type { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public List<ItemDTO> Items { get; set; } = new();
-        public List<EnemyDTO> Enemies { get; set; }
-    }
+    public record RoomDTO(
+        int Id,
+        string Type,
+        int Width,
+        int Height,
+        List<ItemDTO> Items,
+        List<EnemyDTO> Enemies
+    ) : IDTO;
 }
