@@ -4,6 +4,7 @@ using TempleOfDoom.BusinessLogic.Models.Doors;
 using TempleOfDoom.BusinessLogic.Models.Enemy;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.DataLayer.Models.Items;
+using TempleOfDoom.Interfaces;
 
 public class CharacterFactory
 {
@@ -23,6 +24,64 @@ public class CharacterFactory
         { typeof(Ladder), ('!', ConsoleColor.Blue) }
     };
 
+    public static char GetTransitionCharacter(ITransition transition)
+    {
+        // Traverse the decorator chain if the transition is a DoorDecorator
+        while (transition is DoorDecorator doorDecorator)
+        {
+            if (doorDecorator is ColoredDoorDecorator)
+            {
+                // Apply behavior for ColoredDoorDecorator (if needed)
+            }
+            else if (doorDecorator is ToggleDoorDecorator)
+            {
+                return '\u2534'; // Example character for ToggleDoorDecorator
+            }
+            else if (doorDecorator is NumberOfStonesRoomDoorDecorator)
+            {
+                return '='; // Example character for NumberOfStonesRoomDoorDecorator
+            }
+
+            // Move to the next level in the decorator chain
+            transition = doorDecorator.DecoratedDoor;
+        }
+
+        // Handle base transitions
+        return transition switch
+        {
+            Ladder _ => 'L',
+            BasicDoor _ => 'D',
+            _ => '?' // Default character for unknown transitions
+        };
+    }
+
+    public static char GetWallCharacter()
+    {
+        return '#';
+    }
+
+
+    public static char GetMovableCharacter(IMovableGameObject movableGameObject)
+    {
+        return movableGameObject switch
+        {
+            EnemyAdapter _ => 'E',
+            Player _ => 'X',
+        };
+    }
+
+    public static char GetItemDisplay(IItem item)
+    {
+        return item switch
+        {
+            SankaraStone _ => 'S',
+            PressurePlate _ => 'P',
+            Key _ => 'K',
+            DisappearingBoobytrap _ => 'D',
+            Boobytrap _ => 'B',
+            _ => '?'
+        };
+    }
     public (char character, ConsoleColor color) GetCharacterWithColor(object obj)
     {
         if (obj == null)
@@ -33,100 +92,4 @@ public class CharacterFactory
 
         return (' ', DefaultDoorColor); // Default for unknown types
     }
-    
-    public (char character, ConsoleColor color) GetWallCharacterAndColor()
-    {
-        return ('#', ConsoleColor.Yellow);
-    }
-
-    // Add a mapping for MovableGameObjects
-    private readonly Dictionary<Type, (char character, ConsoleColor color)> _enemyTypeMap = new()
-    {
-        { typeof(EnemyAdapter), ('E', ConsoleColor.Red) }
-    };
-
-    public (char character, ConsoleColor color) GetMovableGameObjectCharacterWithColor(IMovableGameObject obj)
-    {
-        if (obj == null)
-            return (' ', ConsoleColor.Gray); // Default for null objects
-
-        if (_enemyTypeMap.TryGetValue(obj.GetType(), out var result))
-            return result;
-
-        return ('?', ConsoleColor.Gray); // Fallback for unknown MovableGameObject types
-    }
-
-    public static char GetEnemyDisplay(IMovableGameObject enemy)
-    {
-        return enemy switch
-        {
-            EnemyAdapter => '?'
-        };
-    }
-
-
-
-    public static ConsoleColor MapColorToConsoleColor(Color color)
-    {
-        return color switch
-        {
-            Color.Red => ConsoleColor.Red,
-            Color.Green => ConsoleColor.Green,
-            Color.Blue => ConsoleColor.Blue,
-            _ => ConsoleColor.Gray // Default to gray if no match
-        };
-    }
-
-
-    public (char character, ConsoleColor color) GetDoorCharacterAndColor(List<Connection> connections)
-    {
-        char doorCharacter = 'D'; // Default character for door
-        ConsoleColor doorColor = ConsoleColor.Gray; // Default color for door
-
-        foreach (var connection in connections)
-        {
-            var transition = connection.Transition; // The actual door for this connection
-
-            // Traverse through the decorator chain to get the final appearance of the door
-            while (transition is DoorDecorator doorDecorator)
-            {
-                // Apply logic to determine which door properties to extract
-                // Get the base door from the decorator chain
-                transition = doorDecorator.DecoratedDoor;
-
-                // Check the type of the decorator and apply corresponding behavior
-                if (doorDecorator is ColoredDoorDecorator coloredDoor)
-                {
-                    // Convert Color to ConsoleColor
-                    doorColor = MapColorToConsoleColor(coloredDoor._color);
-                }
-
-                if (doorDecorator is ToggleDoorDecorator toggleDoor)
-                {
-                    doorCharacter = '\u2534';
-                }
-
-                if (doorDecorator is NumberOfStonesRoomDoorDecorator stonesDoor)
-                {
-                    doorCharacter =
-                        '='; // For example, if NumberOfStonesRoomDoorDecorator is applied, set a unique character.
-                }
-
-                // You can add more checks for other decorators here, depending on your decorator types.
-            }
-
-            // If no decorators change the appearance, fallback to default
-            if (doorCharacter == 'D' && doorColor == ConsoleColor.Gray)
-            {
-                // This means no decorators affected the appearance, set default behavior
-                doorCharacter = 'B'; // For BasicDoor, for example.
-                doorColor = ConsoleColor.Green;
-            }
-        }
-
-        return (doorCharacter, doorColor); // Return the selected door character and color
-    }
-
-
-
 }

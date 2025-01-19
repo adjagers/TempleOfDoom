@@ -20,10 +20,6 @@ public class Frame
 
     public void SetPixel(Position pos, char value)
     {
-        _frame[new Position(1, 1)] = 'X';
-        _frame[new Position(2, 2)] = 'O';
-        _frame[new Position(3, 3)] = '*';
-
         _frame[pos] = value;
     }
 
@@ -38,11 +34,11 @@ public class Frame
 
                 if (_frame.ContainsKey(position))
                 {
-                    Console.Write(_frame[position]);
+                    Console.Write($"{_frame[position]} ");
                 }
                 else
                 {
-                    Console.Write(' '); // Print space if the position is not set
+                    Console.Write("  "); // Two spaces for empty positions
                 }
             }
 

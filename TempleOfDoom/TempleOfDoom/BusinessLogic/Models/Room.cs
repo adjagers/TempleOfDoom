@@ -41,7 +41,13 @@ namespace TempleOfDoom.DataLayer.Models
                    (x == 0 && y == currentRoom.Dimensions.getHeight() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.WEST)) ||
                    (x == currentRoom.Dimensions.getWidth() - 1 && y == currentRoom.Dimensions.getHeight() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.EAST));
         }
-        
+
+        public Connection? GetConnectionByDirection(Direction direction)
+        {
+            return Connections.FirstOrDefault(conn =>
+                AdjacentRooms.TryGetValue(direction, out var adjacentRoom) &&
+                conn.ConnectedRoom == adjacentRoom);
+        }
         
         
         public bool IsPlayerOnDoor(Position playerPosition)

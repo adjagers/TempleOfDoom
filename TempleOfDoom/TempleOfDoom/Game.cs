@@ -96,14 +96,7 @@ public class Game : IObserver<Player>
             }
         }
     }
-
-    private void RenderMovableGameObject(Room currentRoom)
-    {
-        currentRoom.Enemies.Where(entity => !entity.IsDead).ToList().ForEach(entity =>
-        {
-            _frame.SetPixel(entity.Position, CharacterFactory.GetEnemyDisplay(entity));
-        });
-    }
+    
 
     private void CheckPlayerEnemyCollision()
     {
@@ -160,7 +153,9 @@ public class Game : IObserver<Player>
         _frame.Clear();
         BuildRooms(_gameLevel.Player);
         BuildPlayer(_gameLevel.Player);
+        BuildEnemy(currentRoom);
         BuildItems(currentRoom);
+        BuildLadder(currentRoom);
         BuildDoor(currentRoom);
         _frame.Render();
         currentRoom.ItemCheck(_gameLevel.Player);
@@ -176,18 +171,17 @@ public class Game : IObserver<Player>
         // Draw top and bottom walls
         for (int x = currentRoom.LeftX(); x <= currentRoom.RightX(); x++)
         {
-            _frame.SetPixel(new Position(x, currentRoom.TopY()), '#');
-            _frame.SetPixel(new Position(x, currentRoom.BottomY()), '#');
+            _frame.SetPixel(new Position(x, currentRoom.TopY()), CharacterFactory.GetWallCharacter());
+            _frame.SetPixel(new Position(x, currentRoom.BottomY()), CharacterFactory.GetWallCharacter());
         }
 
         // Draw left and right walls
         for (int y = currentRoom.BottomY(); y <= currentRoom.TopY(); y++)
         {
-            _frame.SetPixel(new Position(currentRoom.LeftX(), y), '#');
-            _frame.SetPixel(new Position(currentRoom.RightX(), y), '#');
+            _frame.SetPixel(new Position(currentRoom.LeftX(), y), CharacterFactory.GetWallCharacter());
+            _frame.SetPixel(new Position(currentRoom.RightX(), y), CharacterFactory.GetWallCharacter());
         }
     }
-
     private (int x, int y) GetLadderCoordinates(Room currentRoom, Connection connection, Ladder ladder)
     {
         // Determine if the ladder's coordinates should be upper or lower based on the connected room
@@ -200,76 +194,72 @@ public class Game : IObserver<Player>
             return (ladder.LowerX, ladder.LowerY);
         }
     }
-
     private void BuildDoor(Room currentRoom)
     {
-        // NORTH door
-        if (currentRoom.AdjacentRooms.ContainsKey(Direction.NORTH))
-        {
-            int doorX = currentRoom.Dimensions.getWidth() / 2;
-            int doorY = 0;
-            _frame.SetPixel(new Position(doorX, doorY), 'D');
-        }
+        var doorPositions = GetDoorPositions(currentRoom);
 
-        // SOUTH door
-        if (currentRoom.AdjacentRooms.ContainsKey(Direction.SOUTH))
+        foreach (var direction in currentRoom.AdjacentRooms.Keys)
         {
-            int doorX = currentRoom.Dimensions.getWidth() / 2;
-            int doorY = currentRoom.Dimensions.getHeight() - 1;
-            _frame.SetPixel(new Position(doorX, doorY), 'D');
-        }
-
-        // WEST door
-        if (currentRoom.AdjacentRooms.ContainsKey(Direction.WEST))
-        {
-            int doorX = 0;
-            int doorY = currentRoom.Dimensions.getHeight() / 2;
-            _frame.SetPixel(new Position(doorX, doorY), 'D');
-        }
-
-        // EAST door
-        if (currentRoom.AdjacentRooms.ContainsKey(Direction.EAST))
-        {
-            int doorX = currentRoom.Dimensions.getWidth() - 1;
-            int doorY = currentRoom.Dimensions.getHeight() / 2;
-            _frame.SetPixel(new Position(doorX, doorY), 'D');
+            if (doorPositions.TryGetValue(direction, out var getPosition))
+            {
+                var connection = currentRoom.GetConnectionByDirection(direction);
+                if (connection != null)
+                {
+                    char transitionCharacter = CharacterFactory.GetTransitionCharacter(connection.Transition);
+                    (int doorX, int doorY) = getPosition();
+                    _frame.SetPixel(new Position(doorX, doorY), transitionCharacter);
+                }
+            }
         }
     }
 
+    private Dictionary<Direction, Func<(int, int)>> GetDoorPositions(Room currentRoom)
+    {
+        return new Dictionary<Direction, Func<(int, int)>>()
+        {
+            { Direction.NORTH, () => (currentRoom.Dimensions.getWidth() / 2, 0) },
+            { Direction.SOUTH, () => (currentRoom.Dimensions.getWidth() / 2, currentRoom.Dimensions.getHeight() - 1) },
+            { Direction.WEST, () => (0, currentRoom.Dimensions.getHeight() / 2) },
+            { Direction.EAST, () => (currentRoom.Dimensions.getWidth() - 1, currentRoom.Dimensions.getHeight() / 2) }
+        };
+    }
 
+    private void BuildEnemy(Room currentRoom)
+    {
+        foreach (IAutoMovableGameObject enemy in currentRoom.Enemies)
+        {
+            _frame.SetPixel(enemy.Position, CharacterFactory.GetMovableCharacter(enemy));
+        }
+    }
     private void BuildLadder(Room currentRoom)
     {
         foreach (var connection in currentRoom.Connections)
         {
             if (connection.Transition is Ladder ladder)
             {
-                // Get the ladder coordinates from the connection
                 (int ladderX, int ladderY) = GetLadderCoordinates(currentRoom, connection, ladder);
-
-                // Render the ladder position on the frame
-                _frame.SetPixel(new Position(ladderX, ladderY), 'L');
+                _frame.SetPixel(new Position(ladderX, ladderY), CharacterFactory.GetTransitionCharacter(ladder));
             }
         }
     }
 
 
-    private void BuildItems(Room playerCurrentRoom)
+    private void BuildItems(Room currentRoom)
     {
-        foreach (IItem item in playerCurrentRoom.Items)
+        foreach (IItem item in currentRoom.Items)
         {
-            _frame.SetPixel(item.Position, 'I');
+            if (item.Position != null) _frame.SetPixel(item.Position, CharacterFactory.GetItemDisplay(item));
         }
     }
-
     private void BuildPlayer(Player player)
     {
-        _frame.SetPixel(player.Position, 'P');
+        _frame.SetPixel(player.Position, CharacterFactory.GetMovableCharacter(player));
     }
+
+   
 
 
 // Method to check if the position is a wall (implement your wall check logic here)
-
-
     private void HandleDoorTransition(Room currentRoom)
     {
         // Handle door transitions
