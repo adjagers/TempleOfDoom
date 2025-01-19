@@ -1,4 +1,5 @@
 ﻿using TempleOfDoom.BusinessLogic.HelperClasses;
+using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.HelperClasses;
 
 namespace TempleOfDoom.DataLayer.Models.Items;

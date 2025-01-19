@@ -1,5 +1,6 @@
 ﻿using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.BusinessLogic.HelperClasses;
+using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 

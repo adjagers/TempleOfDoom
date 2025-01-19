@@ -1,13 +1,10 @@
-﻿using System;
-using TempleOfDoom.BusinessLogic.Enums;
+﻿using TempleOfDoom.BusinessLogic.Enums;
 using TempleOfDoom.BusinessLogic.HelperClasses;
-using TempleOfDoom.BusinessLogic.Models;
-using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.DataLayer.Models.Items;
+using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DataLayer.Models
+namespace TempleOfDoom.BusinessLogic.Models
 {
     public class Player : IMovableGameObject, IObservable<Player>
     {
@@ -179,9 +176,5 @@ namespace TempleOfDoom.DataLayer.Models
 
             NotifyObservers();
         }
-        
-
-
-
     }
 }
