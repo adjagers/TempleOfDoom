@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using CODE_TempleOfDoom_DownloadableContent;
 using TempleOfDoom.BusinessLogic;
-using TempleOfDoom.BusinessLogic.FactoryMethodes;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.BusinessLogic.FactoryMethodes
+namespace TempleOfDoom.DataLayer.FactoryMethodes
 {
     public class GameLevelFactory : IFactory
     {
@@ -30,7 +29,7 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
             {
                 Lives = gameLevelDTO.Player.Lives,
                 Position = new Position(gameLevelDTO.Player.StartX, gameLevelDTO.Player.StartY),
-                CurrentRoom = _roomDict.ContainsKey(gameLevelDTO.Player.StartRoomId) 
+                CurrentRoom = _roomDict.ContainsKey(gameLevelDTO.Player.StartRoomId)
                     ? _roomDict[gameLevelDTO.Player.StartRoomId]
                     : throw new InvalidOperationException($"Room with ID {gameLevelDTO.Player.StartRoomId} does not exist.")
             };
@@ -39,7 +38,7 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
             GameLevel gameLevel = new GameLevel(rooms, player);
             return gameLevel;
         }
-        
+
         private void CreateRooms(List<RoomDTO> roomDtos)
         {
             foreach (RoomDTO roomDto in roomDtos)
@@ -48,7 +47,7 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
             }
         }
 
-        
+
 
         private void AddConnectionsToRooms(List<ConnectionDTO> connectionDtos)
         {
