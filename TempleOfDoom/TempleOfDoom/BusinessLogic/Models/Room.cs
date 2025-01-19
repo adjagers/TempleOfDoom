@@ -26,12 +26,7 @@ namespace TempleOfDoom.DataLayer.Models
         {
             return Items.OfType<SankaraStone>().Count();
         }
-
-        public bool HasMovableGameObject(int x, int y, out IMovableGameObject gameObject)
-        {
-            gameObject = Enemies.FirstOrDefault(obj => obj.Position.GetX() == x && obj.Position.GetY() == y);
-            return gameObject != null;
-        }
+        
         public bool IsDoor(int x, int y, Room currentRoom)
         {
             return (y == 0 && x == currentRoom.Dimensions.getWidth() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.NORTH)) ||
@@ -43,7 +38,7 @@ namespace TempleOfDoom.DataLayer.Models
         public Connection? GetConnectionByDirection(Direction direction)
         {
             return Connections.FirstOrDefault(conn =>
-                AdjacentRooms.TryGetValue(direction, out var adjacentRoom) &&
+                AdjacentRooms.TryGetValue(direction, out Room adjacentRoom) &&
                 conn.ConnectedRoom == adjacentRoom);
         }
         
@@ -92,5 +87,21 @@ namespace TempleOfDoom.DataLayer.Models
                 }
             }
         }
+
+        public Position GetPositionForDoor(Direction direction)
+        {
+            return direction switch
+            {
+                Direction.NORTH => new Position(this.Dimensions.getWidth() / 2, this.Dimensions.getHeight() - 2),
+                Direction.SOUTH => new Position(this.Dimensions.getWidth() / 2, 1),
+                Direction.WEST => new Position(this.Dimensions.getWidth() - 2, this.Dimensions.getHeight() / 2),
+                Direction.EAST => new Position(1, this.Dimensions.getHeight() / 2),
+                Direction.UPPER => new Position(this.Dimensions.getWidth() / 2, this.Dimensions.getHeight() / 2 - 1),
+                Direction.LOWER => new Position(this.Dimensions.getWidth() / 2, this.Dimensions.getHeight() / 2 + 1),
+                _ => throw new ArgumentException("Invalid direction", nameof(direction))
+            };
+        }
+
     }
+    
 }

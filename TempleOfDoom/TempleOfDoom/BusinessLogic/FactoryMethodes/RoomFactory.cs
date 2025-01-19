@@ -34,7 +34,7 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
 
             List<IAutoMovableGameObject> enemies = new();
 
-            foreach (var enemyDto in enemyDtos)
+            foreach (EnemyDTO enemyDto in enemyDtos)
             {
                 EnemyAdapter enemy = new EnemyAdapter(
                     enemyDto.Type,

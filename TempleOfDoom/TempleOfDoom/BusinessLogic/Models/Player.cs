@@ -6,7 +6,7 @@ namespace TempleOfDoom.BusinessLogic.Models
     public class Player : IMovableGameObject, IObservable<Player>
     {
         private List<IObserver<Player>> _observers = new();
-        
+
         public Room CurrentRoom { get; set; }
         public bool PerformedAction { get; private set; }
         public int SankaraStones => Inventory.GetSankaraStonesCount();
@@ -16,8 +16,8 @@ namespace TempleOfDoom.BusinessLogic.Models
         public bool IsDone => IsDead;
 
         private const int PlayerDamage = 1;
-        
-        
+
+
         public Player()
         {
             this.Inventory = new Inventory();
@@ -95,7 +95,7 @@ namespace TempleOfDoom.BusinessLogic.Models
 
         private void NotifyObservers()
         {
-            foreach (var observer in _observers)
+            foreach (IObserver<Player> observer in _observers)
             {
                 observer.OnNext(this);
             }
@@ -120,57 +120,29 @@ namespace TempleOfDoom.BusinessLogic.Models
                 }
             }
         }
+
         public void AddItemInventory(IItem item)
         {
             Inventory.AddItem(item);
         }
+
         public bool NumberOfLivesIsOdd()
         {
             if (Lives % 2 == 1) return true;
             return false;
         }
 
-       
-        
+
+
         public bool IsPlayerPosition(int x, int y)
         {
             return Position.GetX() == x && Position.GetY() == y;
         }
+
         public void MoveThroughDoor(Room nextRoom, Direction direction)
         {
-            CurrentRoom = nextRoom; // Update current room to the next room
-
-            // Position the player just inside the door
-            switch (direction)
-            {
-                case Direction.NORTH:
-                    Position = new Position(nextRoom.Dimensions.getWidth() / 2,
-                        nextRoom.Dimensions.getHeight() - 2); // Just inside
-                    break;
-
-                case Direction.SOUTH:
-                    Position = new Position(nextRoom.Dimensions.getWidth() / 2, 1); // Just inside
-                    break;
-
-                case Direction.WEST:
-                    Position = new Position(nextRoom.Dimensions.getWidth() - 2,
-                        nextRoom.Dimensions.getHeight() / 2); // Just inside
-                    break;
-
-                case Direction.EAST:
-                    Position = new Position(1, nextRoom.Dimensions.getHeight() / 2); // Just inside
-                    break;
-                case Direction.UPPER: // Handle moving up a ladder
-                    Position = new Position(nextRoom.Dimensions.getWidth() / 2,
-                        nextRoom.Dimensions.getHeight() / 2 - 1); // Ladder top position
-                    break;
-
-                case Direction.LOWER: // Handle moving down a ladder
-                    Position = new Position(nextRoom.Dimensions.getWidth() / 2,
-                        nextRoom.Dimensions.getHeight() / 2 + 1); // Ladder bottom position
-                    break;
-            }
-
+            CurrentRoom = nextRoom;
+            Position = nextRoom.GetPositionForDoor(direction);
             NotifyObservers();
         }
     }
