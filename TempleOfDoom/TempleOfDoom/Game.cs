@@ -7,6 +7,7 @@ using TempleOfDoom.BusinessLogic.Models.Enemy;
 using TempleOfDoom.DataLayer;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
+using TempleOfDoom.HelperClasses;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom.PresentationLayer;
 
@@ -15,6 +16,9 @@ public class Game : IObserver<Player>
     private GameLevel _gameLevel;
     private InputHandler _movementHandler;
     private DebugPrinter _debugPrinter;
+
+
+    private readonly Frame _frame = new();
 
 
     public Game(string fileName)
@@ -93,12 +97,19 @@ public class Game : IObserver<Player>
         }
     }
 
+    private void RenderMovableGameObject(Room currentRoom)
+    {
+        currentRoom.Enemies.Where(entity => !entity.IsDead).ToList().ForEach(entity =>
+        {
+            _frame.SetPixel(entity.Position, CharacterFactory.GetEnemyDisplay(entity));
+        });
+    }
+
     private void CheckPlayerEnemyCollision()
     {
         foreach (var enemy in _gameLevel.Player.CurrentRoom.Enemies)
         {
-            if (enemy.Position.GetX() == _gameLevel.Player.Position.GetX() &&
-                enemy.Position.GetY() == _gameLevel.Player.Position.GetY())
+            if (enemy.Position.Equals(_gameLevel.Player.Position))
             {
                 Console.WriteLine("Player collided with an enemy!");
                 _gameLevel.Player.Damage(1); // Player loses a life
@@ -111,13 +122,6 @@ public class Game : IObserver<Player>
     private void DamageEnemies()
     {
         Console.WriteLine("SHOOT");
-
-        // Null check for _gameLevel, _gameLevel.Player, and _gameLevel.Player.CurrentRoom
-        if (_gameLevel?.Player?.CurrentRoom?.Enemies == null)
-        {
-            Console.WriteLine("Error: Enemies list is null.");
-            return; // Early return if Enemies is null
-        }
 
         // Iterate over the enemies in the current room
         _gameLevel.Player.CurrentRoom.Enemies.ForEach(entity =>
@@ -147,64 +151,41 @@ public class Game : IObserver<Player>
         Room currentRoom = _gameLevel.Player.CurrentRoom;
         Console.WriteLine($" Amount of Sankara stones in game: {_gameLevel.GetTotalSankaraStones()}");
         Console.WriteLine($"lives {_gameLevel.Player.Lives}");
-
         int requiredStones = _gameLevel.GetTotalSankaraStones(); // Or any other number based on your game logic
-
         if (_gameLevel.HasPlayerCollectedRequiredStones(requiredStones))
         {
             Console.WriteLine("Player has collected enough Sankara Stones!");
         }
-
-        
         _debugPrinter = new DebugPrinter(currentRoom);
-        RenderRoomGrid(currentRoom);
+        _frame.Clear();
+        BuildRooms(_gameLevel.Player);
+        BuildPlayer(_gameLevel.Player);
+        BuildItems(currentRoom);
+        BuildDoor(currentRoom);
+        _frame.Render();
         currentRoom.ItemCheck(_gameLevel.Player);
         
         // TODO:: Needs to replaced into a different class.
         HandleDoorTransition(currentRoom);
     }
 
-
-    private void RenderRoomGrid(Room currentRoom)
+    private void BuildRooms(Player player)
     {
-        foreach (var connection in currentRoom.Connections)
+        Room currentRoom = player.CurrentRoom;
+
+        // Draw top and bottom walls
+        for (int x = currentRoom.LeftX(); x <= currentRoom.RightX(); x++)
         {
-            Console.WriteLine(connection.Transition);
-        }
-        CharacterFactory characterFactory = new CharacterFactory();
-
-        for (int y = 0; y < currentRoom.Dimensions.getHeight(); y++)
-        {
-            for (int x = 0; x < currentRoom.Dimensions.getWidth(); x++)
-            {
-                RenderCellContent(currentRoom, x, y, characterFactory);
-            }
-
-            Console.WriteLine();
-        }
-    }
-
-    private void RenderCellContent(Room currentRoom, int x, int y, CharacterFactory characterFactory)
-    {
-        if (RenderDoor(currentRoom, x, y, characterFactory)) return;
-        if (RenderLadder(currentRoom, x, y, characterFactory)) return;
-        if (RenderItem(currentRoom, x, y, characterFactory)) return;
-        if (RenderPlayer(x, y, characterFactory)) return;
-        if (RenderWall(currentRoom, x, y, characterFactory)) return;
-        if (RenderMovableGameObject(currentRoom, x, y, characterFactory)) return;
-
-        Console.Write("   "); // Empty space for other positions
-    }
-
-    private bool RenderDoor(Room currentRoom, int x, int y, CharacterFactory characterFactory)
-    {
-        if (currentRoom.IsDoor(x, y, currentRoom))
-        {
-            RenderCell(characterFactory.GetDoorCharacterAndColor(currentRoom.Connections));
-            return true;
+            _frame.SetPixel(new Position(x, currentRoom.TopY()), '#');
+            _frame.SetPixel(new Position(x, currentRoom.BottomY()), '#');
         }
 
-        return false;
+        // Draw left and right walls
+        for (int y = currentRoom.BottomY(); y <= currentRoom.TopY(); y++)
+        {
+            _frame.SetPixel(new Position(currentRoom.LeftX(), y), '#');
+            _frame.SetPixel(new Position(currentRoom.RightX(), y), '#');
+        }
     }
 
     private (int x, int y) GetLadderCoordinates(Room currentRoom, Connection connection, Ladder ladder)
@@ -220,78 +201,69 @@ public class Game : IObserver<Player>
         }
     }
 
-    private bool RenderLadder(Room currentRoom, int x, int y, CharacterFactory characterFactory)
+    private void BuildDoor(Room currentRoom)
     {
-        foreach (Connection connection in currentRoom.Connections)
+        // NORTH door
+        if (currentRoom.AdjacentRooms.ContainsKey(Direction.NORTH))
+        {
+            int doorX = currentRoom.Dimensions.getWidth() / 2;
+            int doorY = 0;
+            _frame.SetPixel(new Position(doorX, doorY), 'D');
+        }
+
+        // SOUTH door
+        if (currentRoom.AdjacentRooms.ContainsKey(Direction.SOUTH))
+        {
+            int doorX = currentRoom.Dimensions.getWidth() / 2;
+            int doorY = currentRoom.Dimensions.getHeight() - 1;
+            _frame.SetPixel(new Position(doorX, doorY), 'D');
+        }
+
+        // WEST door
+        if (currentRoom.AdjacentRooms.ContainsKey(Direction.WEST))
+        {
+            int doorX = 0;
+            int doorY = currentRoom.Dimensions.getHeight() / 2;
+            _frame.SetPixel(new Position(doorX, doorY), 'D');
+        }
+
+        // EAST door
+        if (currentRoom.AdjacentRooms.ContainsKey(Direction.EAST))
+        {
+            int doorX = currentRoom.Dimensions.getWidth() - 1;
+            int doorY = currentRoom.Dimensions.getHeight() / 2;
+            _frame.SetPixel(new Position(doorX, doorY), 'D');
+        }
+    }
+
+
+    private void BuildLadder(Room currentRoom)
+    {
+        foreach (var connection in currentRoom.Connections)
         {
             if (connection.Transition is Ladder ladder)
             {
-                // Determine ladder coordinates for the current room
+                // Get the ladder coordinates from the connection
                 (int ladderX, int ladderY) = GetLadderCoordinates(currentRoom, connection, ladder);
 
-                if (x == ladderX && y == ladderY)
-                {
-                    RenderCell(characterFactory.GetCharacterWithColor(connection.Transition));
-                    return true;
-                }
+                // Render the ladder position on the frame
+                _frame.SetPixel(new Position(ladderX, ladderY), 'L');
             }
         }
-
-        return false;
     }
 
 
-    private bool RenderItem(Room currentRoom, int x, int y, CharacterFactory characterFactory)
+    private void BuildItems(Room playerCurrentRoom)
     {
-        IItem itemAtPosition =
-            currentRoom.Items.FirstOrDefault(item => item.Position?.GetX() == x && item.Position?.GetY() == y);
-        if (itemAtPosition != null)
+        foreach (IItem item in playerCurrentRoom.Items)
         {
-            RenderCell(characterFactory.GetCharacterWithColor(itemAtPosition));
-            return true;
+            _frame.SetPixel(item.Position, 'I');
         }
-
-        return false;
     }
 
-    private bool RenderPlayer(int x, int y, CharacterFactory characterFactory)
+    private void BuildPlayer(Player player)
     {
-        if (_gameLevel.Player.IsPlayerPosition(x, y))
-        {
-            RenderCell(characterFactory.GetCharacterWithColor(_gameLevel.Player));
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool RenderWall(Room currentRoom, int x, int y, CharacterFactory characterFactory)
-    {
-        if (currentRoom.IsWall(x, y, currentRoom))
-        {
-            RenderCell(characterFactory.GetWallCharacterAndColor());
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool RenderMovableGameObject(Room currentRoom, int x, int y, CharacterFactory characterFactory)
-    {
-        if (currentRoom.HasMovableGameObject(x, y, out IMovableGameObject gameObject))
-        {
-            RenderCell(characterFactory.GetMovableGameObjectCharacterWithColor(gameObject));
-            return true;
-        }
-
-        return false;
-    }
-
-    private void RenderCell((char character, ConsoleColor color) characterAndColor)
-    {
-        Console.ForegroundColor = characterAndColor.color;
-        Console.Write($" {characterAndColor.character} ");
-        Console.ResetColor();
+        _frame.SetPixel(player.Position, 'P');
     }
 
 

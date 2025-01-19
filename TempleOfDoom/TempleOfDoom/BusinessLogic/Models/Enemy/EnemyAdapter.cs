@@ -1,5 +1,6 @@
 using CODE_TempleOfDoom_DownloadableContent;
 using TempleOfDoom.BusinessLogic.Enums;
+using TempleOfDoom.BusinessLogic.HelperClasses;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.HelperClasses;
 
@@ -8,14 +9,10 @@ namespace TempleOfDoom.BusinessLogic.Models.Enemy
     public class EnemyAdapter : IAutoMovableGameObject
     {
         private readonly CODE_TempleOfDoom_DownloadableContent.Enemy _baseEnemy;
-
-        // Boundaries passed via constructor, no direct access to protected fields
         public int MinX { get; }
         public int MaxX { get; }
         public int MinY { get; }
         public int MaxY { get; }
-
-        // Expose the current position
         public Position Position => new Position(_baseEnemy.CurrentXLocation, _baseEnemy.CurrentYLocation);
 
         public bool IsDead { get; private set; }

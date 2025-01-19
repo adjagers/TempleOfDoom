@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TempleOfDoom.HelperClasses
+﻿namespace TempleOfDoom.BusinessLogic.HelperClasses
 {
     public class Position
     {
@@ -12,14 +10,24 @@ namespace TempleOfDoom.HelperClasses
             _y = y;
         }
 
-        public int GetX()
+        public int GetX() => _x;
+        public int GetY() => _y;
+
+        // Override Equals for value comparison
+        public override bool Equals(object obj)
         {
-            return _x;
+            if (obj is Position other)
+            {
+                return _x == other._x && _y == other._y;
+            }
+
+            return false;
         }
 
-        public int GetY()
+        // Override GetHashCode to ensure positions with the same coordinates produce the same hash
+        public override int GetHashCode()
         {
-            return _y;
+            return HashCode.Combine(_x, _y);
         }
 
         public bool IsAdjacentTo(Position other) =>

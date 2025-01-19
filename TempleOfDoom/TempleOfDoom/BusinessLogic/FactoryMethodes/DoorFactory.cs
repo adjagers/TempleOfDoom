@@ -16,10 +16,7 @@ public class DoorFactory
             {
                 case "colored":
                     // Use a default color if no color is provided
-                    Color keyColor = dtoDoor.Color != null
-                        ? Enum.Parse<Color>(dtoDoor.Color, true)
-                        : Color.Blue; // Default color, change as needed
-                    door = new ColoredDoorDecorator(door, keyColor);
+                    door = new ColoredDoorDecorator(door, GetDoorColor(dtoDoor.Color));
                     break;
                 case "toggle":
                     door = new ToggleDoorDecorator(door);
@@ -40,5 +37,10 @@ public class DoorFactory
         }
 
         return door;
+    }
+
+    private Color GetDoorColor(string color)
+    {
+        return color != null ? Enum.Parse<Color>(color, true) : Color.Blue; // Default color
     }
 }

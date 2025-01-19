@@ -56,6 +56,14 @@ public class CharacterFactory
         return ('?', ConsoleColor.Gray); // Fallback for unknown MovableGameObject types
     }
 
+    public static char GetEnemyDisplay(IMovableGameObject enemy)
+    {
+        return enemy switch
+        {
+            EnemyAdapter => '?'
+        };
+    }
+
 
 
     public static ConsoleColor MapColorToConsoleColor(Color color)
