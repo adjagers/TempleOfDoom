@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TempleOfDoom.BusinessLogic;
-using TempleOfDoom.BusinessLogic.Models;
-using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.DataLayer.Models.Items;
+﻿using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.DataLayer.Models
+namespace TempleOfDoom.BusinessLogic.Models
 {
     public class Room : IGameObject
     {
@@ -18,15 +10,21 @@ namespace TempleOfDoom.DataLayer.Models
         public int RightX() => Dimensions.getWidth() - 1;
         public int TopY() => Dimensions.getHeight() - 1;
         public int BottomY() => 0;
-        public List<Connection> Connections { get; set; } = new List<Connection>();
-        public List<IItem> Items { get; set; }
-        public Dictionary<Direction, Room> AdjacentRooms { get; set; } = new();
-        public List<IAutoMovableGameObject> Enemies { get; set; } = new List<IAutoMovableGameObject>();
+        public List<Connection> Connections { get; } = new();
+        public List<IItem> Items { get; }
+        public Dictionary<Direction, Room> AdjacentRooms { get; } = new();
+        public List<IAutoMovableGameObject> Enemies { get; }
         public int CountSankraStonesInRoom()
         {
             return Items.OfType<SankaraStone>().Count();
         }
-        
+
+        public Room(Dimensions dimensions, List<IItem> items, List<IAutoMovableGameObject> enemies)
+        {
+            Dimensions = dimensions;
+            Items = items;
+            Enemies = enemies;
+        }
         public bool IsDoor(int x, int y, Room currentRoom)
         {
             return (y == 0 && x == currentRoom.Dimensions.getWidth() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.NORTH)) ||
@@ -34,15 +32,12 @@ namespace TempleOfDoom.DataLayer.Models
                    (x == 0 && y == currentRoom.Dimensions.getHeight() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.WEST)) ||
                    (x == currentRoom.Dimensions.getWidth() - 1 && y == currentRoom.Dimensions.getHeight() / 2 && currentRoom.AdjacentRooms.ContainsKey(Direction.EAST));
         }
-
         public Connection? GetConnectionByDirection(Direction direction)
         {
             return Connections.FirstOrDefault(conn =>
                 AdjacentRooms.TryGetValue(direction, out Room adjacentRoom) &&
                 conn.ConnectedRoom == adjacentRoom);
         }
-        
-        
         public bool IsPlayerOnDoor(Position playerPosition)
         {
             int x = playerPosition.GetX();
@@ -57,15 +52,31 @@ namespace TempleOfDoom.DataLayer.Models
         }
         public Direction? GetDoorDirection(Position playerPosition)
         {
-            int x = playerPosition.GetX();
-            int y = playerPosition.GetY();
-    
-            if (IsDoor(x, y, this))
+            // Get the width and height of the room or map (assuming this is part of your object)
+            int width = Dimensions.getWidth();
+            int height = Dimensions.getHeight();
+
+            // Using the extension to get the x and y offsets for each direction
+            Position doorPosition = new Position(playerPosition.GetX(), playerPosition.GetY());
+
+            if (IsDoor(doorPosition.GetX(), doorPosition.GetY(), this))
             {
-                if (y == 0 && x == Dimensions.getWidth() / 2 && AdjacentRooms.ContainsKey(Direction.NORTH)) return Direction.NORTH;
-                if (y == Dimensions.getHeight() - 1 && x == Dimensions.getWidth() / 2 && AdjacentRooms.ContainsKey(Direction.SOUTH)) return Direction.SOUTH;
-                if (x == 0 && y == Dimensions.getHeight() / 2 && AdjacentRooms.ContainsKey(Direction.WEST)) return Direction.WEST;
-                if (x == Dimensions.getWidth() - 1 && y == Dimensions.getHeight() / 2 && AdjacentRooms.ContainsKey(Direction.EAST)) return Direction.EAST;
+                // Try to find matching direction dynamically using the Direction extension
+                foreach (var direction in Enum.GetValues(typeof(Direction)).Cast<Direction>())
+                {
+                    // Check if adjacent room exists in that direction
+                    if (AdjacentRooms.ContainsKey(direction))
+                    {
+                        // Get the corresponding door position for that direction using the extension method
+                        Position expectedPosition = direction.GetPositionForDirection(width, height);
+
+                        // Compare door position with expected position dynamically
+                        if (doorPosition.Equals(expectedPosition))
+                        {
+                            return direction;
+                        }
+                    }
+                }
             }
             return null;
         }
@@ -81,27 +92,24 @@ namespace TempleOfDoom.DataLayer.Models
             foreach(IItem item in Items)
             {
                 if(item.Position==null) continue;
-                if(player.Position.GetX()==item.Position.GetX()&&player.Position.GetY()==item.Position.GetY())
+                if (player.Position.Equals(item.Position))
                 {
                     item.Interact(player);
                 }
             }
         }
-
         public Position GetPositionForDoor(Direction direction)
         {
             return direction switch
             {
-                Direction.NORTH => new Position(this.Dimensions.getWidth() / 2, this.Dimensions.getHeight() - 2),
-                Direction.SOUTH => new Position(this.Dimensions.getWidth() / 2, 1),
-                Direction.WEST => new Position(this.Dimensions.getWidth() - 2, this.Dimensions.getHeight() / 2),
-                Direction.EAST => new Position(1, this.Dimensions.getHeight() / 2),
-                Direction.UPPER => new Position(this.Dimensions.getWidth() / 2, this.Dimensions.getHeight() / 2 - 1),
-                Direction.LOWER => new Position(this.Dimensions.getWidth() / 2, this.Dimensions.getHeight() / 2 + 1),
+                Direction.NORTH => new Position(Dimensions.getWidth() / 2, Dimensions.getHeight() - 2),
+                Direction.SOUTH => new Position(Dimensions.getWidth() / 2, 1),
+                Direction.WEST => new Position(Dimensions.getWidth() - 2, Dimensions.getHeight() / 2),
+                Direction.EAST => new Position(1, Dimensions.getHeight() / 2),
+                Direction.UPPER => new Position(Dimensions.getWidth() / 2, Dimensions.getHeight() / 2 - 1),
+                Direction.LOWER => new Position(Dimensions.getWidth() / 2, Dimensions.getHeight() / 2 + 1),
                 _ => throw new ArgumentException("Invalid direction", nameof(direction))
             };
         }
-
     }
-    
 }

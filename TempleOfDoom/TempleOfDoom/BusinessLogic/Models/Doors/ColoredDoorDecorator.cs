@@ -1,6 +1,4 @@
-﻿using TempleOfDoom.DataLayer.Models;
-
-namespace TempleOfDoom.BusinessLogic.Models.Doors
+﻿namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class ColoredDoorDecorator(IDoor door, Color color) : DoorDecorator(door)
     {

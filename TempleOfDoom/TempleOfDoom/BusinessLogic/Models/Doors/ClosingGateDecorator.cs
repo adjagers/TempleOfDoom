@@ -1,7 +1,4 @@
-﻿using System;
-using TempleOfDoom.DataLayer.Models;
-
-namespace TempleOfDoom.BusinessLogic.Models.Doors
+﻿namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class ClosingGateDecorator : DoorDecorator
     {

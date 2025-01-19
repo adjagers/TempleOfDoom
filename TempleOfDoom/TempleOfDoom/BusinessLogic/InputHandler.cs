@@ -1,5 +1,7 @@
 ﻿
 
+using TempleOfDoom.BusinessLogic.Models;
+
 namespace TempleOfDoom.BusinessLogic
 {
     public class InputHandler

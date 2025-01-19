@@ -24,12 +24,15 @@
             return false;
         }
 
-        // Override GetHashCode to ensure positions with the same coordinates produce the same hash
+        public Position Add(Position other) => new Position(_x + other._x, _y + other._y);
+
+        // This is for the Frame.cs it's used to Hash the position for the dictionary that is used there.
         public override int GetHashCode()
         {
             return HashCode.Combine(_x, _y);
         }
 
+        // Checks whether the enemy is nearby
         public bool IsAdjacentTo(Position other) =>
             Math.Abs(GetX() - other.GetX()) <= 1 && Math.Abs(GetY() - other.GetY()) <= 1;
     }

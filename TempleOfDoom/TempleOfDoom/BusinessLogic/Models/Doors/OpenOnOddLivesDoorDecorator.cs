@@ -5,7 +5,6 @@ namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class OpenOnOddDecorator : DoorDecorator
     {
-
         public OpenOnOddDecorator(IDoor door) : base(door)
         {
         }

@@ -1,6 +1,3 @@
-
-using TempleOfDoom.Interfaces;
-
 namespace TempleOfDoom.BusinessLogic.Models;
 
 public interface IMovableGameObject : IGameObject
@@ -14,5 +11,5 @@ public interface IMovableGameObject : IGameObject
 
     public void Move(Direction direction);
 
-    public Direction GetLastDirection();
+    public Direction GetLastDirection(MovableDirection movableDirection);
 }

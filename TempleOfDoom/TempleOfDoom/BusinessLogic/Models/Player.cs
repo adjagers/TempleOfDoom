@@ -5,12 +5,13 @@ namespace TempleOfDoom.BusinessLogic.Models
 {
     public class Player(int lives, Position position, Room currentRoom) : IMovableGameObject, IObservable<Player>
     {
-        private List<IObserver<Player>> _observers = new();
+        private readonly List<IObserver<Player>> _observers = new();
 
-        public Room CurrentRoom { get; set; } = currentRoom ?? throw new ArgumentNullException(nameof(currentRoom));
+        public Room CurrentRoom { get; private set; } =
+            currentRoom ?? throw new ArgumentNullException(nameof(currentRoom));
         public bool PerformedAction { get; private set; }
         public int SankaraStones => Inventory.GetSankaraStonesCount();
-        public Position Position { get; set; } = position;
+        public Position Position { get; private set; } = position;
         public int Lives { get; set; } = lives;
         public bool IsDead => Lives <= 0;
         public bool IsDone => IsDead;
@@ -34,44 +35,36 @@ namespace TempleOfDoom.BusinessLogic.Models
             PerformedAction = false;
         }
 
+        private bool IsBlocked(int x, int y) =>
+            CurrentRoom.IsWall(x, y, CurrentRoom) && !CurrentRoom.IsDoor(x, y, CurrentRoom);
+
         public void Move(Direction direction)
         {
-            // Get the direction offset
             Position directionValues = direction.GetDirectionValues();
 
-            // Calculate the new position
-            int newX = Position.GetX() + directionValues.GetX();
-            int newY = Position.GetY() + directionValues.GetY();
+            // Use the Add method of the Position struct to calculate the new position
+            Position newPosition = Position.Add(directionValues);
 
-            // Check if the new position is a wall or not
-            if (CurrentRoom.IsWall(newX, newY, CurrentRoom) &&
-                !CurrentRoom.IsDoor(newX, newY, CurrentRoom))
+            if (IsBlocked(newPosition.GetX(), newPosition.GetY()))
             {
-                Console.WriteLine("Cannot move, it's a wall!");
                 return;
             }
 
-            // Update the player's position
-            Position = new Position(newX, newY);
-
-            // Notify observers about the player's movement
+            Position = newPosition; // Update the player's position with the new calculated position
             NotifyObservers();
         }
 
-        public Direction GetLastDirection()
+
+        public Direction GetLastDirection(MovableDirection movableDirection)
         {
             throw new NotImplementedException();
         }
-
-
-
         public IDisposable Subscribe(IObserver<Player> observer)
         {
             if (!_observers.Contains(observer))
             {
                 _observers.Add(observer);
             }
-
             return new Unsubscriber<Player>(_observers, observer);
         }
 
@@ -102,8 +95,8 @@ namespace TempleOfDoom.BusinessLogic.Models
 
             public Unsubscriber(List<IObserver<T>> observers, IObserver<T> observer)
             {
-                this._observers = observers;
-                this._observer = observer;
+                _observers = observers;
+                _observer = observer;
             }
 
             public void Dispose()
@@ -114,25 +107,16 @@ namespace TempleOfDoom.BusinessLogic.Models
                 }
             }
         }
-
         public void AddItemInventory(IItem item)
         {
             Inventory.AddItem(item);
         }
-
         public bool NumberOfLivesIsOdd()
         {
             if (Lives % 2 == 1) return true;
             return false;
         }
-
-
-
-        public bool IsPlayerPosition(int x, int y)
-        {
-            return Position.GetX() == x && Position.GetY() == y;
-        }
-
+        
         public void MoveThroughDoor(Room nextRoom, Direction direction)
         {
             CurrentRoom = nextRoom;

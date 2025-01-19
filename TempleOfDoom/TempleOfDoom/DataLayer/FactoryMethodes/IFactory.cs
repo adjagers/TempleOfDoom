@@ -1,4 +1,5 @@
-﻿using TempleOfDoom.Interfaces;
+﻿using TempleOfDoom.BusinessLogic.Models;
+using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer.FactoryMethodes
 {

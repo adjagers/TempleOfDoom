@@ -1,7 +1,4 @@
-﻿using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.Interfaces;
-
-namespace TempleOfDoom.BusinessLogic.Models.Doors
+﻿namespace TempleOfDoom.BusinessLogic.Models.Doors
 {
     public class BasicDoor : IDoor
     {

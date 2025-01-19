@@ -1,15 +1,11 @@
-﻿using TempleOfDoom.BusinessLogic.Models;
-using TempleOfDoom.DataLayer.DTO;
-using TempleOfDoom.DataLayer.Models;
-using TempleOfDoom.DataLayer.Models.Items;
-using TempleOfDoom.Interfaces;
+﻿using TempleOfDoom.DataLayer.Models;
 
-namespace TempleOfDoom
+namespace TempleOfDoom.BusinessLogic.Models
 {
     public class GameLevel : IGameObject
     {
-        public List<Room> Rooms { get; set; }
-        public Player Player { get; set; }
+        public List<Room> Rooms { get; }
+        public Player Player { get; }
 
 
         public GameLevel(List<Room> rooms, Player player)

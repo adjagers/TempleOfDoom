@@ -16,28 +16,13 @@ namespace TempleOfDoom.DataLayer.FactoryMethodes
 
             ItemFactory itemFactory = new();
 
-            Room room = new Room
-            {
-                Dimensions = new Dimensions(roomDTO.Width, roomDTO.Height),
-                Items = roomDTO.Items?
-                            .Select(itemDTO => itemFactory.CreateItem(itemDTO))
-                            .ToList()
-                        ?? new List<IItem>(),
-            };
-            AddEnemiesToRoom(room, roomDTO.Enemies);
-            return room;
-        }
+            List<IItem> items = roomDTO.Items?
+                                    .Select(itemDTO => itemFactory.CreateItem(itemDTO))
+                                    .ToList()
+                                ?? new List<IItem>();
 
-        private void AddEnemiesToRoom(Room room, List<EnemyDTO>? enemyDtos)
-        {
-            if (enemyDtos == null || enemyDtos.Count == 0)
-                return;
-
-            List<IAutoMovableGameObject> enemies = new();
-
-            foreach (EnemyDTO enemyDto in enemyDtos)
-            {
-                EnemyAdapter enemy = new EnemyAdapter(
+            List<IAutoMovableGameObject> enemies = roomDTO.Enemies?
+                .Select(enemyDto => new EnemyAdapter(
                     enemyDto.Type,
                     enemyDto.X,
                     enemyDto.Y,
@@ -45,16 +30,19 @@ namespace TempleOfDoom.DataLayer.FactoryMethodes
                     enemyDto.MaxX,
                     enemyDto.MinY,
                     enemyDto.MaxY
-                );
+                )).Cast<IAutoMovableGameObject>()
+                .ToList() ?? new List<IAutoMovableGameObject>();
 
-                enemies.Add(enemy);
-            }
 
-            room.Enemies = enemies;
+            Room room = new Room(
+                new Dimensions(roomDTO.Width, roomDTO.Height),
+                items,
+                enemies
+            );
+            return room;
         }
 
-        public List<Connection> CreateRoomConnectionsWithTransitions(
-            Dictionary<int, Room> roomDict,
+        public List<Connection> CreateRoomConnectionsWithTransitions(Dictionary<int, Room> roomDict,
             List<ConnectionDTO> connectionDtos)
         {
             List<Connection> connections = new List<Connection>();

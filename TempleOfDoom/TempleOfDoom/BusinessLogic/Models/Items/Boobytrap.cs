@@ -15,6 +15,7 @@ public class Boobytrap : IItem
         _damage = damage;
     }
 
+    // TODO:: No time for it but make sure this cant be done such its setting the Player Lives that should not be public
     public virtual void Interact(Player player)
     {
         Console.WriteLine("Oh no! You hit a Boobytrap!");

@@ -1,4 +1,5 @@
 using TempleOfDoom.BusinessLogic;
+using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.Models;
 
 namespace TempleOfDoom.PresentationLayer;
