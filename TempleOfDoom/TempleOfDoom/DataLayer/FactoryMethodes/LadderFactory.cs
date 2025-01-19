@@ -1,7 +1,7 @@
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.DataLayer.DTO;
 
-namespace TempleOfDoom.BusinessLogic.FactoryMethodes;
+namespace TempleOfDoom.DataLayer.FactoryMethodes;
 
 public class LadderFactory
 {

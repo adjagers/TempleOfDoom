@@ -1,6 +1,6 @@
 ﻿using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.BusinessLogic.FactoryMethodes
+namespace TempleOfDoom.DataLayer.FactoryMethodes
 {
     public interface IFactory
     {

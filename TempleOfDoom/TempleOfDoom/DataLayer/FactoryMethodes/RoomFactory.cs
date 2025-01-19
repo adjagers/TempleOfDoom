@@ -1,10 +1,11 @@
-﻿using TempleOfDoom.BusinessLogic.Models;
+﻿using TempleOfDoom.BusinessLogic;
+using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.BusinessLogic.Models.Enemy;
 using TempleOfDoom.DataLayer.DTO;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 
-namespace TempleOfDoom.BusinessLogic.FactoryMethodes
+namespace TempleOfDoom.DataLayer.FactoryMethodes
 {
     public class RoomFactory
     {
@@ -20,7 +21,7 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
                 Dimensions = new Dimensions(roomDTO.Width, roomDTO.Height),
                 Items = roomDTO.Items?
                             .Select(itemDTO => itemFactory.CreateItem(itemDTO))
-                            .ToList<IItem>()
+                            .ToList()
                         ?? new List<IItem>(),
             };
             AddEnemiesToRoom(room, roomDTO.Enemies);
@@ -73,9 +74,9 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
                 {
                     transition = doorFactory.CreateDoor(doorDtoTypes);
                 }
-                
-                
-                
+
+
+
 
                 void AddConnection(int? sourceRoomId, int? targetRoomId, Direction direction)
                 {
@@ -103,8 +104,8 @@ namespace TempleOfDoom.BusinessLogic.FactoryMethodes
 
             return connections;
         }
-        
-        
-        
+
+
+
     }
 }

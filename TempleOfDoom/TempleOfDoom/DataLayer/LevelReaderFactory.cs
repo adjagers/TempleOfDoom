@@ -8,10 +8,10 @@ using TempleOfDoom.Interfaces;
 
 namespace TempleOfDoom.DataLayer
 {
-    public class LevelReader : ILevelDataReader
+    public class LevelReaderFactory : ILevelDataReader
     {
         public GameLevelDTO GameLevelDTO {  get; set; }
-        public LevelReader(string path)
+        public LevelReaderFactory(string path)
         {
             GameLevelDTO = ReadFile(path);
         }

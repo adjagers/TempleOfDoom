@@ -1,6 +1,6 @@
 using NUnit.Framework;
-using TempleOfDoom.BusinessLogic.FactoryMethodes;
 using TempleOfDoom.DataLayer.DTO;
+using TempleOfDoom.DataLayer.FactoryMethodes;
 using TempleOfDoom.DataLayer.Models;
 
 namespace UnitTests.Factories

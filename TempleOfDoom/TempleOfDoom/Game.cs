@@ -1,10 +1,10 @@
 using TempleOfDoom;
 using TempleOfDoom.BusinessLogic;
-using TempleOfDoom.BusinessLogic.FactoryMethodes;
 using TempleOfDoom.BusinessLogic.Models;
 using TempleOfDoom.BusinessLogic.Models.Enemy;
 using TempleOfDoom.DataLayer;
 using TempleOfDoom.DataLayer.DTO;
+using TempleOfDoom.DataLayer.FactoryMethodes;
 using TempleOfDoom.DataLayer.Models;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom.PresentationLayer;
@@ -29,7 +29,7 @@ public class Game : IObserver<Player>
 
     private GameLevel LoadGameLevel(string fileName)
     {
-        LevelReader levelReader = new LevelReader(fileName);
+        LevelReaderFactory levelReader = new LevelReaderFactory(fileName);
         
         // TODO:: levelReader.Gamelevel little bit janky maybe later on if we have time....
         GameLevelDTO gameLevelDto = levelReader.GameLevelDTO;

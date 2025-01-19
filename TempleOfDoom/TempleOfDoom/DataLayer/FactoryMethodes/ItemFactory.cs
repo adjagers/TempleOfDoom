@@ -5,7 +5,7 @@ using TempleOfDoom.DataLayer.Models.Items;
 using TempleOfDoom.Interfaces;
 using TempleOfDoom.BusinessLogic;
 
-namespace TempleOfDoom.BusinessLogic.FactoryMethodes
+namespace TempleOfDoom.DataLayer.FactoryMethodes
 {
     public class ItemFactory
     {
